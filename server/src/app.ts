@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes";
 import gmailRoutes from "./routes/gmailRoutes";
+import applicationRoutes from "./routes/applicationRoutes";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/gmail", gmailRoutes);
+app.use("/api/applications", applicationRoutes);
 
 // Health check
 app.get("/health", (req, res) => {

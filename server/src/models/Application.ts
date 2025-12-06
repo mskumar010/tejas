@@ -21,6 +21,13 @@ export interface IApplication extends Document {
   cooldownUntil?: Date;
   autoStatusLastChecked?: Date;
   createdAt: Date;
+  relatedEmails?: {
+    messageId: string;
+    subject: string;
+    sender: string;
+    date: Date;
+    snippet: string;
+  }[];
 }
 
 const ApplicationSchema: Schema = new Schema({
@@ -44,6 +51,15 @@ const ApplicationSchema: Schema = new Schema({
   cooldownUntil: { type: Date },
   autoStatusLastChecked: { type: Date },
   createdAt: { type: Date, default: Date.now },
+  relatedEmails: [
+    {
+      messageId: String,
+      subject: String,
+      sender: String,
+      date: Date,
+      snippet: String,
+    },
+  ],
 });
 
 // Index for efficient querying by user

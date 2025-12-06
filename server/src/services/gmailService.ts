@@ -62,5 +62,14 @@ export const getEmailDetails = async (user: IUser, messageId: string) => {
     id: messageId,
   });
 
-  return res.data;
+  const headers = res.data.payload?.headers || [];
+  const subject =
+    headers.find((h) => h.name === "Subject")?.value || "No Subject";
+  const from =
+    headers.find((h) => h.name === "From")?.value || "Unknown Sender";
+  const date =
+    headers.find((h) => h.name === "Date")?.value || new Date().toISOString();
+  const snippet = res.data.snippet || "";
+
+  return { id: res.data.id, subject, from, date, snippet };
 };
