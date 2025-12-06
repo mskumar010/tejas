@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+html {
+  @apply max-w-[2000px] mx-auto;
+}
+@media (min-width: 3501px) {
+  html {
+    @apply border-neutral-400 dark:border-neutral-400;
+  }
+}
+
+body {
+  @apply bg-app text-text-main transition-colors duration-200;
+}
+
 @theme {
   --color-primary: #4f46e5;
   --color-secondary: #64748b;

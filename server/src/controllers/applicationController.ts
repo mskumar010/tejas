@@ -3,16 +3,27 @@ import Application from "../models/Application";
 import { parseEmail } from "../utils/emailParser";
 import { updatePatternStats } from "../utils/PatternManager";
 import ParsedEmail from "../models/ParsedEmail";
-
-// @ts-ignore
 import fs from "fs";
-// @ts-ignore
 import path from "path";
+
+interface AuthenticatedRequest extends Request {
+  user: {
+    id: string;
+  };
+}
+
+interface EmailSummary {
+  messageId: string;
+  subject: string;
+  sender: string;
+  date: Date;
+  snippet: string;
+  body: string;
+}
 
 export const getApplications = async (req: Request, res: Response) => {
   try {
-    // @ts-ignore
-    const userId = req.user.id;
+    const userId = (req as AuthenticatedRequest).user.id;
     const applications = await Application.find({ userId }).sort({
       appliedDate: -1,
       createdAt: -1,
@@ -28,8 +39,7 @@ export const updateStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    // @ts-ignore
-    const userId = req.user.id;
+    const userId = (req as AuthenticatedRequest).user.id;
 
     if (!status) {
       return res.status(400).json({ message: "Status is required" });
@@ -53,12 +63,57 @@ export const updateStatus = async (req: Request, res: Response) => {
 
 export const createManual = async (req: Request, res: Response) => {
   try {
-    // @ts-ignore
-    const userId = req.user.id;
+    const userId = (req as AuthenticatedRequest).user.id;
     let { company, role, status, appliedDate, notes, emailContent } = req.body;
 
+    // Strict Validation for Manual Entries
+    if (emailContent) {
+      if (!emailContent.body || emailContent.body.length < 50) {
+        return res.status(400).json({
+          message:
+            "Content too short. Please paste the full email (headers included).",
+        });
+      }
+
+      const lowerBody = emailContent.body.toLowerCase();
+      // Requirement: Must look like an email (Headers OR Greetings OR Closings)
+      const emailSignals = [
+        // Headers
+        "subject:",
+        "from:",
+        "sent:",
+        "date:",
+        // Greetings
+        "dear ",
+        "hello ",
+        "hi ",
+        "hi,",
+        "hiring manager",
+        // Closings
+        "best regards",
+        "sincerely",
+        "kind regards",
+        "regards",
+        "thanks",
+        "thank you",
+        "cheers",
+        "best,",
+      ];
+
+      const hasSignal = emailSignals.some((signal) =>
+        lowerBody.includes(signal)
+      );
+
+      if (!hasSignal) {
+        return res.status(400).json({
+          message:
+            "Invalid format. Text should look like an email (include a greeting like 'Hi'/'Dear' or closing like 'Best regards').",
+        });
+      }
+    }
+
     // Create a fake email entry if emailContent is provided
-    let relatedEmails: any[] = [];
+    let relatedEmails: EmailSummary[] = [];
     if (emailContent) {
       const messageId = `manual_${Date.now()}`;
       relatedEmails.push({
@@ -111,7 +166,14 @@ export const createManual = async (req: Request, res: Response) => {
 
         if (!company && parsed.company) company = parsed.company;
         if (!role && parsed.role) role = parsed.role;
-        if (!status && parsed.status !== "Unknown") status = parsed.status;
+        // If status is missing OR 'Auto-detect', try to use parsed status
+        if (
+          (!status || status === "Auto-detect") &&
+          parsed.status &&
+          parsed.status !== "Unknown"
+        ) {
+          status = parsed.status;
+        }
 
         // Ensure jobId is saved (we need to update the Application model to support this field if we want to save it)
         // For now, we can append it to notes if found

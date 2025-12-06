@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { login, reset } from "@/features/auth/authSlice";
 import type { AppDispatch, RootState } from "@/store";
 import { Mail, Lock, ArrowRight, Loader } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -52,7 +53,10 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-app transition-colors duration-200 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-app transition-colors duration-200 p-4 relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="max-w-md w-full bg-surface rounded-2xl shadow-xl overflow-hidden border border-border-base">
         <div className="p-8">
           <div className="text-center mb-8">
@@ -60,7 +64,7 @@ function Login() {
               Welcome Back
             </h1>
             <p className="text-text-muted">
-              Sign in to continue tracking your applications
+              Login to continue tracking your applications
             </p>
           </div>
 
@@ -122,7 +126,7 @@ function Login() {
                 <Loader className="animate-spin h-5 w-5" />
               ) : (
                 <>
-                  Sign In
+                  Login
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </>
               )}

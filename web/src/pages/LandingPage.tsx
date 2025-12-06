@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Shield, LayoutDashboard } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 function LandingPage() {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -14,6 +15,7 @@ function LandingPage() {
           <span className="text-xl font-bold text-text-main">Tejas</span>
         </div>
         <nav className="flex gap-4 items-center">
+          <ThemeToggle />
           {user ? (
             <Link
               to="/dashboard"

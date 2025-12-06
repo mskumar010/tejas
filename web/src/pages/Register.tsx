@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { register, reset } from "@/features/auth/authSlice";
 import type { AppDispatch, RootState } from "@/store";
 import { Mail, Lock, Loader, UserPlus } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -57,7 +58,10 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-app transition-colors duration-200 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-app transition-colors duration-200 p-4 relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="max-w-md w-full bg-surface rounded-2xl shadow-xl overflow-hidden border border-border-base">
         <div className="p-8">
           <div className="text-center mb-8">
@@ -165,7 +169,7 @@ function Register() {
                 to="/login"
                 className="font-medium text-primary hover:opacity-80 hover:underline"
               >
-                Sign in instead
+                Login instead
               </Link>
             </p>
           </div>

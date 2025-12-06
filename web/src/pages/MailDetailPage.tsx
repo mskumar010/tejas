@@ -8,11 +8,25 @@ import {
   Tag,
   Clock,
   ExternalLink,
+  ChevronDown,
+  Check,
 } from "lucide-react";
 import api from "@/services/api";
 import { toast } from "react-hot-toast";
 import { format } from "date-fns";
-import { getStatusColor, getAllStatuses } from "@/utils/statusUtils.tsx";
+import {
+  getStatusColor,
+  getAllStatuses,
+  STATUS_CATEGORIES,
+} from "@/utils/statusUtils.tsx";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+  Transition,
+} from "@headlessui/react";
+import { Fragment } from "react";
 
 interface Application {
   _id: string;
@@ -89,9 +103,9 @@ const MailDetailPage = () => {
   )[0];
 
   return (
-    <div className="min-h-screen bg-app flex flex-col">
+    <div className="flex flex-col min-h-screen md:h-screen bg-app md:overflow-hidden transition-colors duration-200">
       {/* Header */}
-      <header className="bg-surface border-b border-border-base px-6 py-4 flex items-center justify-between sticky top-0 z-20 shadow-sm/5">
+      <header className="flex-shrink-0 bg-surface border-b border-border-base px-6 py-4 flex items-center justify-between sticky top-0 z-20 md:relative shadow-sm/5">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate(-1)}
@@ -99,7 +113,7 @@ const MailDetailPage = () => {
           >
             <ArrowLeft size={20} />
           </button>
-          <div>
+          <div className="min-w-0">
             <h1 className="text-xl font-bold text-text-main truncate max-w-xl leading-tight">
               {latestEmail?.subject || "No Subject"}
             </h1>
@@ -119,7 +133,7 @@ const MailDetailPage = () => {
         </div>
 
         <div
-          className={`px-3 py-1 rounded-full text-sm font-semibold border ${getStatusColor(
+          className={`flex-shrink-0 px-3 py-1 rounded-full text-sm font-semibold border ${getStatusColor(
             selectedStatus
           )}`}
         >
@@ -127,10 +141,11 @@ const MailDetailPage = () => {
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden max-w-[1920px] mx-auto w-full">
+      {/* Content Container */}
+      <div className="flex-1 flex flex-col md:flex-row w-full max-w-[1920px] mx-auto md:overflow-hidden">
         {/* Main Content - Email Body */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          <div className="bg-surface rounded-2xl shadow-sm border border-border-base min-h-[600px] flex flex-col">
+        <main className="flex-1 w-full md:overflow-y-auto p-4 md:p-6 custom-scrollbar ">
+          <div className="bg-surface rounded-2xl shadow-sm border border-border-base min-h-[400px] flex flex-col">
             <div className="p-8 flex-1">
               <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap font-sans text-text-main leading-relaxed text-base">
                 {latestEmail?.body ||
@@ -162,8 +177,9 @@ const MailDetailPage = () => {
         </main>
 
         {/* Sidebar / Status Section */}
-        <aside className="w-full md:w-96 bg-surface border-l border-border-base flex-shrink-0 flex flex-col z-10 h-full">
-          <div className="p-6 border-b border-border-base">
+        <aside className="w-full md:w-96 bg-surface border-t md:border-t-0 md:border-l border-border-base flex-shrink-0 flex flex-col z-10 md:h-full">
+          {/* Status Section - Sticky within sidebar on desktop if needed, or just top part of flex col */}
+          <div className="p-6 border-b border-border-base bg-surface z-10 sticky top-[73px] md:top-0">
             <h2 className="text-sm font-bold text-text-main uppercase tracking-wider mb-5">
               Application Status
             </h2>
@@ -173,20 +189,74 @@ const MailDetailPage = () => {
                   Current Stage
                 </label>
                 <div className="relative">
-                  <select
-                    value={selectedStatus}
-                    onChange={(e) => handleStatusChange(e.target.value)}
-                    className="w-full appearance-none p-3 pl-4 pr-10 rounded-xl border border-border-base bg-app text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium text-sm"
-                  >
-                    {getAllStatuses().map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted">
-                    <Clock size={16} />
-                  </div>
+                  <Listbox value={selectedStatus} onChange={handleStatusChange}>
+                    <div className="relative mt-1">
+                      <ListboxButton className="relative w-full cursor-pointer rounded-xl bg-surface/50 backdrop-blur-sm py-3 pl-4 pr-10 text-left border border-border-base shadow-sm hover:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all sm:text-sm">
+                        <span className="block truncate font-medium text-text-main">
+                          {selectedStatus}
+                        </span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <ChevronDown
+                            className="h-5 w-5 text-text-muted"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </ListboxButton>
+                      <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <ListboxOptions className="absolute mt-2 max-h-60 w-full overflow-auto rounded-xl bg-surface/95 backdrop-blur-xl py-1 text-base shadow-xl border border-border-base ring-1 ring-black/5 focus:outline-none sm:text-sm z-50">
+                          {Object.entries(STATUS_CATEGORIES).map(
+                            ([category, statuses]) => (
+                              <div key={category}>
+                                <div className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider bg-app/50 border-y border-border-base first:border-t-0">
+                                  {category.replace(/_/g, " ")}
+                                </div>
+                                {statuses.map((status) => (
+                                  <ListboxOption
+                                    key={status}
+                                    className={({ active }) =>
+                                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                                        active
+                                          ? "bg-primary/10 text-primary"
+                                          : "text-text-main"
+                                      }`
+                                    }
+                                    value={status}
+                                  >
+                                    {({ selected }) => (
+                                      <>
+                                        <span
+                                          className={`block truncate ${
+                                            selected
+                                              ? "font-medium"
+                                              : "font-normal"
+                                          }`}
+                                        >
+                                          {status}
+                                        </span>
+                                        {selected ? (
+                                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                            <Check
+                                              className="h-4 w-4"
+                                              aria-hidden="true"
+                                            />
+                                          </span>
+                                        ) : null}
+                                      </>
+                                    )}
+                                  </ListboxOption>
+                                ))}
+                              </div>
+                            )
+                          )}
+                        </ListboxOptions>
+                      </Transition>
+                    </div>
+                  </Listbox>
                 </div>
               </div>
 
@@ -210,7 +280,7 @@ const MailDetailPage = () => {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-6 bg-app">
+          <div className="flex-1 p-6 bg-app md:overflow-y-auto custom-scrollbar">
             <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-6">
               Activity History
             </h3>

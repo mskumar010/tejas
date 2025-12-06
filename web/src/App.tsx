@@ -1,9 +1,10 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { Loader } from "lucide-react";
 import "@/App.css";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import api from "@/services/api";
 
 // Lazy load components
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
@@ -28,6 +29,62 @@ const LoadingFallback = () => (
 );
 
 function App() {
+  useEffect(() => {
+    const checkServer = async () => {
+      const toastId = "server-status";
+      try {
+        // Attempt to reach the server. Even a 404/401 means it's running.
+        await api.get("/health-check-ping");
+      } catch (error: unknown) {
+        const err = error as { code?: string; message?: string };
+        // If connection refused/network error, server is likely down or waking up
+        if (
+          err.code === "ERR_NETWORK" ||
+          err.message?.includes("Network Error")
+        ) {
+          toast.loading("Connecting to backend server...", {
+            id: toastId,
+            duration: Infinity,
+          });
+
+          // Poll until successful
+          const interval = setInterval(async () => {
+            try {
+              await api.get("/health-check-ping");
+              // If we get here (or catch a non-network error), server is up
+              toast.success("Connected to server!", {
+                id: toastId,
+                duration: 2000,
+              });
+              clearInterval(interval);
+            } catch (retryError: unknown) {
+              const retryErr = retryError as {
+                code?: string;
+                message?: string;
+              };
+              // If it's NOT a network error (e.g. 401, 404), it means server is UP.
+              if (
+                retryErr.code !== "ERR_NETWORK" &&
+                !retryErr.message?.includes("Network Error")
+              ) {
+                toast.success("Connected to server!", {
+                  id: toastId,
+                  duration: 2000,
+                });
+                clearInterval(interval);
+              }
+            }
+          }, 2000);
+
+          // Cleanup interval on unmount
+          return () => clearInterval(interval);
+        }
+      }
+    };
+
+    checkServer();
+  }, []);
+
   return (
     <ErrorBoundary>
       <Router>

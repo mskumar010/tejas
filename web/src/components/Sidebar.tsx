@@ -75,7 +75,7 @@ const Sidebar = () => {
         <ThemeToggle />
       </div>
 
-      <nav className="flex-1 px-4 space-y-2 mt-2">
+      <nav className="flex-1 px-4 space-y-2 mt-2 flex flex-col justify-end md:justify-start">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;

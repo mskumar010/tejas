@@ -12,11 +12,12 @@ mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err);
-    process.exit(1);
+    // process.exit(1); // Don't crash, let server start
   });
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

@@ -26,4 +26,8 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date() });
 });
 
+app.get("/api/health-check-ping", (req, res) => {
+  res.status(200).json({ status: "ok", message: "pong" });
+});
+
 export default app;

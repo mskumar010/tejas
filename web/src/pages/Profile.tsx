@@ -9,7 +9,7 @@ function Profile() {
   if (!user) return null;
 
   return (
-    <section className="max-w-2xl mx-auto space-y-6">
+    <section className="max-w-2xl mx-auto space-y-6 p-4 md:p-8">
       <div className="bg-surface p-8 rounded-xl border border-border-base shadow-sm text-center">
         <div className="w-24 h-24 bg-primary/10 text-primary text-4xl font-bold rounded-full flex items-center justify-center mx-auto mb-4">
           {currentUser.email?.charAt(0).toUpperCase()}

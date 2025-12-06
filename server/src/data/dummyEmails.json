@@ -1,9 +1,210 @@
 [
-
+  {
+    "id": "manual_1765051060368",
+    "threadId": "manual_1765051060368",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "We received your job application for Software Engr I - 129737. If your profile corresponds to our requirements, a member of our Recruiting team will contact you.\n\nIf you were requested to provide addi",
+    "body": "We received your job application for Software Engr I - 129737. If your profile corresponds to our requirements, a member of our Recruiting team will contact you.\n\nIf you were requested to provide additional info about your job application, or if you want to manage your profile, go to your candidate self service page.\n\nSincerely,\n\nHoneywell\n\nRecruiting Team",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T19:57:40.369Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765050919718",
+    "threadId": "manual_1765050919718",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "We received your job application for Software Engr I - 129737. If your profile corresponds to our requirements, a member of our Recruiting team will contact you.\n\nIf you were requested to provide addi",
+    "body": "We received your job application for Software Engr I - 129737. If your profile corresponds to our requirements, a member of our Recruiting team will contact you.\n\nIf you were requested to provide additional info about your job application, or if you want to manage your profile, go to your candidate self service page.\n\nSincerely,\n\nHoneywell\n\nRecruiting Team",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T19:55:19.719Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765047339615",
+    "threadId": "manual_1765047339615",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": " thank you for applying to the role of 67431 - Junior AI Developer with person ID - 10729008 at IBM. We’re excited that you’re considering us as your next employer!\n\nHere at IBM, we believe our greate",
+    "body": " thank you for applying to the role of 67431 - Junior AI Developer with person ID - 10729008 at IBM. We’re excited that you’re considering us as your next employer!\n\nHere at IBM, we believe our greatest asset is the IBMer. We strive every day to foster a culture of conscious inclusion for all individuals and provide IBMers the opportunity to make a positive impact on the world while bringing their authentic selves to work.\n\nTo that end, we want to be as transparent as possible with you about what to expect next now that you’ve applied to IBM. Currently, your application is being reviewed by real IBMers, who are experts in screening resumes in their respective fields. If there's a potential match, we’ll contact you to discuss the next steps of our hiring process.\n\nWhile you wait to hear from us:\n\n• Visit our special careers page to find tips on acing your interview and career advice from current IBMers. You can also check out our application process page to learn more about how we hire at IBM.\n\n• Connect with us on our Life@IBM social media channels (links in the footer below) where you can engage with us further, discover what life at IBM is like, and see how IBMers around the world are making an impact.\n\nYou can also check the status of your application at any time by visiting your IBM Career Portal . If you have any questions, please feel free to send us a direct message on any of our social channels.\n\nThank you again, sandeep kumar, for taking the time to apply to IBM and for your interest in becoming a future IBMer.\n\nBest regards,\nIBM Talent Acquisition Team",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T18:55:39.616Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765047151072",
+    "threadId": "manual_1765047151072",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet conn",
+    "body": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet connection.\nWe recommend you to try the sample test for a couple of minutes, before taking the main test.\nBefore taking the test, please go through the FAQs to resolve your queries related to the test or the HackerRank platform.\nIBM Person ID is a Unique number that you would get after you register on IBM career portal, or you can find the same when you login to your IBM career portal profile.\nHow Test Timing Works\nPlease make sure you can complete this test in one sitting, as the timer cannot be stopped once you begin. Clicking \"Agree & Start\" starts your running timer, even if you are not actively in the test. Importantly, the timer does not pause if you log out or get disconnected from the assessment.\n \nA Few Things to Consider\nThis is a programming test. Please be prepared to encounter programming/coding challenges during the assessment.\nYou must submit a response to all questions to be considered completed.\nFor an optimal experience, ensure you have a stable internet connection, and please complete this test in Mozilla Firefox 101+ or higher or Google Chrome 102+ or higher. Be sure to work in a quiet place where you will not be disturbed and close all applications, pop-up blockers, or other items that may cause a distraction.\nWe recommend that you try the sample test for a few minutes before taking the actual test. You will need to return to this page to begin the actual test.\nTo resolve any questions related to the test or the HackerRank platform, please go through these FAQs.\nYou will have an opportunity to share feedback after submitting the test.\n \n \nTest Instructions\nIf the code area contains the function signature, just complete the function alone, we'll take care of the main function, headers, etc.\nIn coding questions, you can print to console to debug your code using the appropriate print command for each language (E.g.: cout for C++, printf for C, etc.)\n \nDear Candidate,\nGreetings from IBM India!\n \nWe are pleased to invite you to our Virtual recruitment process . This is an exclusive invite designed for you.\n \nPlease ensure you check the settings of your system before you start the actual test by clicking this URL https://www.hackerrank.com/statuscheck\n \nThis is a Proctored test so please ensure your Webcam is working, you can check the same by clicking this URL https://webcamtests.com\n \nPlease note that we have enabled the AI proctoring features and any detection of the below activities can result in disqualification from further considerations in the hiring process, revocation of an employment offer, or termination of employment with IBM. We ensure an IBM recruiter validates all evidence before final decision making. The activities that can lead to rejections are mentioned below:\n \n1.   Shift Tabs/Browsers in between the test.\n2.   Copy and paste\n3.   Move outside the Webcam\n4. Taking assistance/support from any other person during the assessment (if more than one person in the webcam frame)\n5.  Running/Using Screen Sharing Apps during the test\n \nBy beginning this assessment, you agree to complete the assessment with complete honesty and understand the consequences of indulging in unfair practices. IBM strives to maintain the highest standard of business conduct. IBM requires its current and future employees to conduct themselves in an honest and fair manner.\n \nAt IBM we value your privacy and are committed to protecting and processing your personal information responsibly. As an applicant, to know more about our Talent Acquisition Privacy policy, please visit this link à https://www.ibm.com/employment/talent_acquisition_privacy.html\n \nVery Important Note - This Test link will be active for login on 3rd dec 2025 only between 06:30PM to 06:40PM, So you are requested to Click on Start Challenge Link in this mail by 06:15PM and update all your credentials before 06:30PM and Click on Agree and Start to begin with the actual test before 06:40PM.\n \nYou will not be able to Start the Test from 06:40PM\nPlease ensure you mention your IBM Person ID correctly.\n \nRegards,\n \nIBM University Hiring Team",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T18:52:31.073Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765046916194",
+    "threadId": "manual_1765046916194",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet conn",
+    "body": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet connection.\nWe recommend you to try the sample test for a couple of minutes, before taking the main test.\nBefore taking the test, please go through the FAQs to resolve your queries related to the test or the HackerRank platform.\nIBM Person ID is a Unique number that you would get after you register on IBM career portal, or you can find the same when you login to your IBM career portal profile.\nHow Test Timing Works\nPlease make sure you can complete this test in one sitting, as the timer cannot be stopped once you begin. Clicking \"Agree & Start\" starts your running timer, even if you are not actively in the test. Importantly, the timer does not pause if you log out or get disconnected from the assessment.\n \nA Few Things to Consider\nThis is a programming test. Please be prepared to encounter programming/coding challenges during the assessment.\nYou must submit a response to all questions to be considered completed.\nFor an optimal experience, ensure you have a stable internet connection, and please complete this test in Mozilla Firefox 101+ or higher or Google Chrome 102+ or higher. Be sure to work in a quiet place where you will not be disturbed and close all applications, pop-up blockers, or other items that may cause a distraction.\nWe recommend that you try the sample test for a few minutes before taking the actual test. You will need to return to this page to begin the actual test.\nTo resolve any questions related to the test or the HackerRank platform, please go through these FAQs.\nYou will have an opportunity to share feedback after submitting the test.\n \n \nTest Instructions\nIf the code area contains the function signature, just complete the function alone, we'll take care of the main function, headers, etc.\nIn coding questions, you can print to console to debug your code using the appropriate print command for each language (E.g.: cout for C++, printf for C, etc.)\n \nDear Candidate,\nGreetings from IBM India!\n \nWe are pleased to invite you to our Virtual recruitment process . This is an exclusive invite designed for you.\n \nPlease ensure you check the settings of your system before you start the actual test by clicking this URL https://www.hackerrank.com/statuscheck\n \nThis is a Proctored test so please ensure your Webcam is working, you can check the same by clicking this URL https://webcamtests.com\n \nPlease note that we have enabled the AI proctoring features and any detection of the below activities can result in disqualification from further considerations in the hiring process, revocation of an employment offer, or termination of employment with IBM. We ensure an IBM recruiter validates all evidence before final decision making. The activities that can lead to rejections are mentioned below:\n \n1.   Shift Tabs/Browsers in between the test.\n2.   Copy and paste\n3.   Move outside the Webcam\n4. Taking assistance/support from any other person during the assessment (if more than one person in the webcam frame)\n5.  Running/Using Screen Sharing Apps during the test\n \nBy beginning this assessment, you agree to complete the assessment with complete honesty and understand the consequences of indulging in unfair practices. IBM strives to maintain the highest standard of business conduct. IBM requires its current and future employees to conduct themselves in an honest and fair manner.\n \nAt IBM we value your privacy and are committed to protecting and processing your personal information responsibly. As an applicant, to know more about our Talent Acquisition Privacy policy, please visit this link à https://www.ibm.com/employment/talent_acquisition_privacy.html\n \nVery Important Note - This Test link will be active for login on 3rd dec 2025 only between 06:30PM to 06:40PM, So you are requested to Click on Start Challenge Link in this mail by 06:15PM and update all your credentials before 06:30PM and Click on Agree and Start to begin with the actual test before 06:40PM.\n \nYou will not be able to Start the Test from 06:40PM\nPlease ensure you mention your IBM Person ID correctly.\n \nRegards,\n \nIBM University Hiring Team",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T18:48:36.194Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765046888961",
+    "threadId": "manual_1765046888961",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet conn",
+    "body": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet connection.\nWe recommend you to try the sample test for a couple of minutes, before taking the main test.\nBefore taking the test, please go through the FAQs to resolve your queries related to the test or the HackerRank platform.\nIBM Person ID is a Unique number that you would get after you register on IBM career portal, or you can find the same when you login to your IBM career portal profile.\nHow Test Timing Works\nPlease make sure you can complete this test in one sitting, as the timer cannot be stopped once you begin. Clicking \"Agree & Start\" starts your running timer, even if you are not actively in the test. Importantly, the timer does not pause if you log out or get disconnected from the assessment.\n \nA Few Things to Consider\nThis is a programming test. Please be prepared to encounter programming/coding challenges during the assessment.\nYou must submit a response to all questions to be considered completed.\nFor an optimal experience, ensure you have a stable internet connection, and please complete this test in Mozilla Firefox 101+ or higher or Google Chrome 102+ or higher. Be sure to work in a quiet place where you will not be disturbed and close all applications, pop-up blockers, or other items that may cause a distraction.\nWe recommend that you try the sample test for a few minutes before taking the actual test. You will need to return to this page to begin the actual test.\nTo resolve any questions related to the test or the HackerRank platform, please go through these FAQs.\nYou will have an opportunity to share feedback after submitting the test.\n \n \nTest Instructions\nIf the code area contains the function signature, just complete the function alone, we'll take care of the main function, headers, etc.\nIn coding questions, you can print to console to debug your code using the appropriate print command for each language (E.g.: cout for C++, printf for C, etc.)\n \nDear Candidate,\nGreetings from IBM India!\n \nWe are pleased to invite you to our Virtual recruitment process . This is an exclusive invite designed for you.\n \nPlease ensure you check the settings of your system before you start the actual test by clicking this URL https://www.hackerrank.com/statuscheck\n \nThis is a Proctored test so please ensure your Webcam is working, you can check the same by clicking this URL https://webcamtests.com\n \nPlease note that we have enabled the AI proctoring features and any detection of the below activities can result in disqualification from further considerations in the hiring process, revocation of an employment offer, or termination of employment with IBM. We ensure an IBM recruiter validates all evidence before final decision making. The activities that can lead to rejections are mentioned below:\n \n1.   Shift Tabs/Browsers in between the test.\n2.   Copy and paste\n3.   Move outside the Webcam\n4. Taking assistance/support from any other person during the assessment (if more than one person in the webcam frame)\n5.  Running/Using Screen Sharing Apps during the test\n \nBy beginning this assessment, you agree to complete the assessment with complete honesty and understand the consequences of indulging in unfair practices. IBM strives to maintain the highest standard of business conduct. IBM requires its current and future employees to conduct themselves in an honest and fair manner.\n \nAt IBM we value your privacy and are committed to protecting and processing your personal information responsibly. As an applicant, to know more about our Talent Acquisition Privacy policy, please visit this link à https://www.ibm.com/employment/talent_acquisition_privacy.html\n \nVery Important Note - This Test link will be active for login on 3rd dec 2025 only between 06:30PM to 06:40PM, So you are requested to Click on Start Challenge Link in this mail by 06:15PM and update all your credentials before 06:30PM and Click on Agree and Start to begin with the actual test before 06:40PM.\n \nYou will not be able to Start the Test from 06:40PM\nPlease ensure you mention your IBM Person ID correctly.\n \nRegards,\n \nIBM University Hiring Team",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T18:48:08.961Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765046866026",
+    "threadId": "manual_1765046866026",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet conn",
+    "body": "B-031225\nPowered by HackerRank\nThis is a timed test. Please make sure you are not interrupted during the test, as the timer cannot be paused once started.\nPlease ensure you have a stable internet connection.\nWe recommend you to try the sample test for a couple of minutes, before taking the main test.\nBefore taking the test, please go through the FAQs to resolve your queries related to the test or the HackerRank platform.\nIBM Person ID is a Unique number that you would get after you register on IBM career portal, or you can find the same when you login to your IBM career portal profile.\nHow Test Timing Works\nPlease make sure you can complete this test in one sitting, as the timer cannot be stopped once you begin. Clicking \"Agree & Start\" starts your running timer, even if you are not actively in the test. Importantly, the timer does not pause if you log out or get disconnected from the assessment.\n \nA Few Things to Consider\nThis is a programming test. Please be prepared to encounter programming/coding challenges during the assessment.\nYou must submit a response to all questions to be considered completed.\nFor an optimal experience, ensure you have a stable internet connection, and please complete this test in Mozilla Firefox 101+ or higher or Google Chrome 102+ or higher. Be sure to work in a quiet place where you will not be disturbed and close all applications, pop-up blockers, or other items that may cause a distraction.\nWe recommend that you try the sample test for a few minutes before taking the actual test. You will need to return to this page to begin the actual test.\nTo resolve any questions related to the test or the HackerRank platform, please go through these FAQs.\nYou will have an opportunity to share feedback after submitting the test.\n \n \nTest Instructions\nIf the code area contains the function signature, just complete the function alone, we'll take care of the main function, headers, etc.\nIn coding questions, you can print to console to debug your code using the appropriate print command for each language (E.g.: cout for C++, printf for C, etc.)\n \nDear Candidate,\nGreetings from IBM India!\n \nWe are pleased to invite you to our Virtual recruitment process . This is an exclusive invite designed for you.\n \nPlease ensure you check the settings of your system before you start the actual test by clicking this URL https://www.hackerrank.com/statuscheck\n \nThis is a Proctored test so please ensure your Webcam is working, you can check the same by clicking this URL https://webcamtests.com\n \nPlease note that we have enabled the AI proctoring features and any detection of the below activities can result in disqualification from further considerations in the hiring process, revocation of an employment offer, or termination of employment with IBM. We ensure an IBM recruiter validates all evidence before final decision making. The activities that can lead to rejections are mentioned below:\n \n1.   Shift Tabs/Browsers in between the test.\n2.   Copy and paste\n3.   Move outside the Webcam\n4. Taking assistance/support from any other person during the assessment (if more than one person in the webcam frame)\n5.  Running/Using Screen Sharing Apps during the test\n \nBy beginning this assessment, you agree to complete the assessment with complete honesty and understand the consequences of indulging in unfair practices. IBM strives to maintain the highest standard of business conduct. IBM requires its current and future employees to conduct themselves in an honest and fair manner.\n \nAt IBM we value your privacy and are committed to protecting and processing your personal information responsibly. As an applicant, to know more about our Talent Acquisition Privacy policy, please visit this link à https://www.ibm.com/employment/talent_acquisition_privacy.html\n \nVery Important Note - This Test link will be active for login on 3rd dec 2025 only between 06:30PM to 06:40PM, So you are requested to Click on Start Challenge Link in this mail by 06:15PM and update all your credentials before 06:30PM and Click on Agree and Start to begin with the actual test before 06:40PM.\n \nYou will not be able to Start the Test from 06:40PM\nPlease ensure you mention your IBM Person ID correctly.\n \nRegards,\n \nIBM University Hiring Team",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T18:47:46.027Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765041032040",
+    "threadId": "manual_1765041032040",
+    "labelIds": [
+      "INBOX"
+    ],
+    "snippet": "Google\n2-Step Verification backup codes generated\n\tsandeepkumarmsk256@gmail.com\nNew backup codes have been created to sign in to your Google Account. If you didn't generate these codes, someone might ",
+    "body": "Google\n2-Step Verification backup codes generated\n\tsandeepkumarmsk256@gmail.com\nNew backup codes have been created to sign in to your Google Account. If you didn't generate these codes, someone might be using your account. Check and secure your account now.",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T17:10:32.042Z"
+        }
+      ]
+    }
+  },
   {
     "id": "manual_1765028626567",
     "threadId": "manual_1765028626567",
-    "labelIds": ["INBOX"],
+    "labelIds": [
+      "INBOX"
+    ],
     "snippet": "Thank you for your interest in Software Development Engineering opportunities at Amazon! We are excited to move you forward to the next step of the application process, the Online Assessment.\n\nPlease ",
     "body": "Thank you for your interest in Software Development Engineering opportunities at Amazon! We are excited to move you forward to the next step of the application process, the Online Assessment.\n\nPlease complete the online assessment (link below) within 7 days of receiving this invitation.\n\nOnce you are ready, set aside at least 2 hours of uninterrupted time and follow the link provided below to complete the online assessment. Please note: once you start the online assessment there are limited opportunities to stop and restart; we suggest to click on the link when you are ready to complete the online assessment in its entirety.\n\nBefore beginning your online assessment, please review the following instructions and helpful hints:\n\nDo not click the Start My Assessment link below until you're ready to start and complete the assessment.\nPlease complete the assessment as soon as possible.\nTake the assessment in a quiet, distraction-free environment.\nSet aside at least 2 hours in a place where you can focus.\nEnsure you have a reliable internet connection during the assessment.\nWork on a larger screen such as a laptop or desktop computer. This assessment is not mobile-enabled, so you will need to complete it on a desktop computer or laptop.\nYou can find more information on assessments at Amazon here: https://www.amazon.jobs/en/landing_pages/assessments\nIf you have a disability and need a workplace accommodation or adjustment during the application and hiring process, including support for the interview or onboarding process, please visit https://amazon.jobs/content/en/how-we-hire/accommodations for more information. If the country/region you’re applying in isn’t listed, please contact your Recruiting Partner.\nAfter completing the assessment, you can take an optional feedback survey.\nYou will know you have completed the entire assessment when you see the confirmation page at the end.\nTo begin your assessment, use the link below:\nStart My Assessment\nNote: This link is unique to you.\n\nTroubleshooting\nFor any technical issues, refer to the troubleshooting guides in the assessment. If those do not work, examine closely where you left off, log out, and log back in using the link above. Please do not repeatedly refresh the screen.\nIf technical issues cannot be resolved, please contact your recruiter immediately.\nWe recognize this is a large time investment. We value the people we hire and we appreciate your interest in Amazon. You will be contacted in the event we dec",
     "payload": {
@@ -26,7 +227,9 @@
   {
     "id": "manual_1765028220901",
     "threadId": "manual_1765028220901",
-    "labelIds": ["INBOX"],
+    "labelIds": [
+      "INBOX"
+    ],
     "snippet": "I have completed the necessary actions to address the issues identified in the verification review, including moving the application homepage and privacy policy to a domain under my ownership and upda",
     "body": "I have completed the necessary actions to address the issues identified in the verification review, including moving the application homepage and privacy policy to a domain under my ownership and updating the URLs in the Cloud Console. The domain has also been verified.\n\nPlease proceed with the verification process.\n\nThank you,\n",
     "payload": {
@@ -49,7 +252,9 @@
   {
     "id": "manual_1765026121883",
     "threadId": "manual_1765026121883",
-    "labelIds": ["INBOX"],
+    "labelIds": [
+      "INBOX"
+    ],
     "snippet": "Thanks for your interest in joining us as a Data Engineer. In order to get to know you better, we'd like to move forward with the hiring process.\n\nYou’re invited to participate in our screening proces",
     "body": "Thanks for your interest in joining us as a Data Engineer. In order to get to know you better, we'd like to move forward with the hiring process.\n\nYou’re invited to participate in our screening process!​​​​​​​​​​​​​​\nSubmit by\tTotal questions (9)\nDec 10th, 2025 (11:59 PM SAST)\nText, Multiple Choice\nGet Started\nYou’ll be directed to our onboarding page, where you can find additional info.\nWhat to expect?\n​​​​​​​\n1. You'll answer the questions on your own, without the presence of an interviewer.\n2. After you submit your results, our recruiters will review and assess them and be back in touch as quickly as possible.\n\nIf you have any questions or need assistance, don’t hesitate to contact us. We appreciate your time and effort. Good luck!\nKind regard,\nNTT DATA - Talent Acquisition Team\n\nConnect With Us On",
     "payload": {
@@ -72,7 +277,9 @@
   {
     "id": "dummy_1",
     "threadId": "thread_1",
-    "labelIds": ["INBOX"],
+    "labelIds": [
+      "INBOX"
+    ],
     "snippet": "Thank you for applying to Google. We have received your application...",
     "payload": {
       "headers": [
@@ -94,7 +301,9 @@
   {
     "id": "dummy_2",
     "threadId": "thread_2",
-    "labelIds": ["INBOX"],
+    "labelIds": [
+      "INBOX"
+    ],
     "snippet": "We would like to schedule an interview to discuss your background...",
     "payload": {
       "headers": [
@@ -116,7 +325,9 @@
   {
     "id": "dummy_3",
     "threadId": "thread_3",
-    "labelIds": ["INBOX"],
+    "labelIds": [
+      "INBOX"
+    ],
     "snippet": "Unfortunately, we will not be moving forward with your application at this time...",
     "payload": {
       "headers": [
@@ -138,7 +349,9 @@
   {
     "id": "dummy_4",
     "threadId": "thread_4",
-    "labelIds": ["INBOX"],
+    "labelIds": [
+      "INBOX"
+    ],
     "snippet": "Congratulations! We are pleased to offer you the position...",
     "payload": {
       "headers": [

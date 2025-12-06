@@ -104,7 +104,7 @@ function Dashboard() {
   }
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-8 p-4 md:p-8">
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface p-4 rounded-xl border border-border-base shadow-sm">
         <div>
@@ -144,7 +144,7 @@ function Dashboard() {
       {/* Stats Grid */}
       <section>
         <h2 className="text-lg font-bold text-text-main mb-4">Overview</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatsCard
             title="Total Applications"
             value={stats.total}
@@ -186,7 +186,7 @@ function Dashboard() {
             onClick={() => navigate("/mail")}
             className="text-sm text-primary hover:opacity-80 font-medium"
           >
-            View All
+            View Mail
           </button>
         </div>
         <ApplicationList applications={applications.slice(0, 5)} />

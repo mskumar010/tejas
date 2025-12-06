@@ -50,9 +50,12 @@ const ManualEmailModal = ({
       setStatus("Applied");
       onSave();
       closeModal();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
-      toast.error("Failed to add application", { id: toastId });
+      const err = error as { response?: { data?: { message?: string } } };
+      const errorMessage =
+        err.response?.data?.message || "Failed to add application";
+      toast.error(errorMessage, { id: toastId, duration: 5000 });
     } finally {
       setIsSubmitting(false);
     }
@@ -143,6 +146,9 @@ const ManualEmailModal = ({
                       value={status}
                       onChange={(e) => setStatus(e.target.value)}
                     >
+                      <option value="Auto-detect">
+                        Auto-detect (Recommended)
+                      </option>
                       {Object.entries(STATUS_CATEGORIES).map(
                         ([category, statuses]) => (
                           <optgroup

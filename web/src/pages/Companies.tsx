@@ -126,7 +126,7 @@ function Companies() {
   }
 
   return (
-    <section className="p-6 max-w-7xl mx-auto space-y-6">
+    <section className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Building2 size={28} className="text-primary" />
@@ -324,15 +324,18 @@ function Companies() {
                       return (
                         <div
                           key={app._id}
-                          className="flex items-center justify-between p-3 bg-surface rounded-lg border border-border-base"
+                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-surface rounded-lg border border-border-base gap-2"
                         >
                           <div className="flex items-center gap-3">
-                            <Briefcase size={16} className="text-text-muted" />
-                            <span className="font-medium text-text-main">
+                            <Briefcase
+                              size={16}
+                              className="text-text-muted shrink-0"
+                            />
+                            <span className="font-medium text-text-main break-words">
                               {app.role}
                             </span>
                           </div>
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
                             <span className="text-sm text-text-muted">
                               {format(new Date(app.appliedDate), "MMM d, yyyy")}
                             </span>
