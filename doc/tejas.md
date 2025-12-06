@@ -1,4 +1,4 @@
-# WeTrack (Job Application Tracker) - Brief Overview
+# TEJAS - Track Emails for Job Applications & statuses - Brief Overview
 
 ## 🎯 Core Concept
 
@@ -370,3 +370,34 @@ Want me to help you:
 4. Design the dashboard layout?
 
 This is your portfolio centerpiece - let's make it great! 🚀
+
+
+# ui structure
+TEJAS
+│
+├─ 📊 Dashboard (Main Page)
+│   ├─ Overview Stats
+│   ├─ Needs Attention (Alerts)
+│   ├─ Application Pipeline (Kanban)
+│   ├─ Upcoming Interviews
+│   ├─ Pending Assessments
+│   ├─ Rejected (Collapsible)
+│   └─ Unrelated Emails (Confirmation)
+│
+├─ 📧 Email Viewer
+│   ├─ Email List (Sidebar)
+│   ├─ Email Content (Main)
+│   └─ Link to Application
+│
+├─ 🏢 Companies
+│   ├─ Applied To (All companies)
+│   ├─ Multiple applications per company
+│   └─ Cooldown Companies
+│
+├─ ⚙️ Settings
+│   ├─ Account
+│   ├─ Sync Settings
+│   ├─ Notifications
+│   ├─ Parsing Rules
+│   └─ Data Export Data (CSV/JSON) 
+│      
