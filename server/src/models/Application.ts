@@ -27,6 +27,7 @@ export interface IApplication extends Document {
     sender: string;
     date: Date;
     snippet: string;
+    body?: string;
   }[];
 }
 
@@ -58,8 +59,11 @@ const ApplicationSchema: Schema = new Schema({
       sender: String,
       date: Date,
       snippet: String,
+      body: String,
     },
   ],
+  confidenceScore: { type: Number }, // Parser confidence
+  parsingDetails: { type: Schema.Types.Mixed }, // Store extra metadata like patterns used
 });
 
 // Index for efficient querying by user

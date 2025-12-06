@@ -3,18 +3,18 @@ import { ArrowLeft } from "lucide-react";
 
 function TermsOfService() {
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-200">
+    <div className="max-w-4xl mx-auto p-8 bg-surface min-h-screen text-text-main">
       <div className="mb-6">
         <Link
           to="/"
-          className="inline-flex items-center text-sm text-primary hover:text-indigo-700 transition-colors"
+          className="inline-flex items-center text-sm text-primary hover:opacity-80 transition-colors"
         >
           <ArrowLeft size={16} className="mr-1" /> Back to Home
         </Link>
       </div>
 
       <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
-      <p className="mb-4 text-sm text-gray-500">
+      <p className="mb-4 text-sm text-text-muted">
         Last updated: {new Date().toLocaleDateString()}
       </p>
 

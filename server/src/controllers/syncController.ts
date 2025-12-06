@@ -14,15 +14,18 @@ export const syncEmails = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    let useDummy = false;
     if (!user.gmailAccessToken) {
-      return res.status(400).json({ message: "Gmail not connected" });
+      console.log("No Gmail token found, using dummy data.");
+      useDummy = true;
+      // return res.status(400).json({ message: "Gmail not connected" });
     }
 
     // 1. List recent emails (last 30 days)
     // Query: "subject:(application OR interview OR offer OR reject OR thank you)"
     const query =
       'category:primary subject:(application OR interview OR offer OR reject OR "thank you") newer_than:30d';
-    const messages = await listEmails(user, query);
+    const messages = await listEmails(user, query, 10, useDummy);
 
     let syncedCount = 0;
 
@@ -31,12 +34,12 @@ export const syncEmails = async (req: Request, res: Response) => {
       // Check if we already processed this email ID (avoid duplicates)
       // Ideally we should store processed MessageIDs, but for MVP we'll rely on Application uniqueness or check existing
 
-      const details = await getEmailDetails(user, msg.id!);
+      const details = await getEmailDetails(user, msg.id!, useDummy);
 
       if (!details) continue;
 
-      const { subject, from, snippet, date } = details;
-      const parsed = parseEmail(subject, from, snippet);
+      const { subject, from, snippet, date, body } = details;
+      const parsed = await parseEmail(subject, from, body);
 
       if (parsed.status !== "Unknown" && parsed.company) {
         // Upsert Application
@@ -54,6 +57,7 @@ export const syncEmails = async (req: Request, res: Response) => {
           sender: from,
           date: new Date(date),
           snippet,
+          body,
         };
 
         if (existingApp) {

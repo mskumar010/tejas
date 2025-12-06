@@ -1,0 +1,160 @@
+[
+
+  {
+    "id": "manual_1765028626567",
+    "threadId": "manual_1765028626567",
+    "labelIds": ["INBOX"],
+    "snippet": "Thank you for your interest in Software Development Engineering opportunities at Amazon! We are excited to move you forward to the next step of the application process, the Online Assessment.\n\nPlease ",
+    "body": "Thank you for your interest in Software Development Engineering opportunities at Amazon! We are excited to move you forward to the next step of the application process, the Online Assessment.\n\nPlease complete the online assessment (link below) within 7 days of receiving this invitation.\n\nOnce you are ready, set aside at least 2 hours of uninterrupted time and follow the link provided below to complete the online assessment. Please note: once you start the online assessment there are limited opportunities to stop and restart; we suggest to click on the link when you are ready to complete the online assessment in its entirety.\n\nBefore beginning your online assessment, please review the following instructions and helpful hints:\n\nDo not click the Start My Assessment link below until you're ready to start and complete the assessment.\nPlease complete the assessment as soon as possible.\nTake the assessment in a quiet, distraction-free environment.\nSet aside at least 2 hours in a place where you can focus.\nEnsure you have a reliable internet connection during the assessment.\nWork on a larger screen such as a laptop or desktop computer. This assessment is not mobile-enabled, so you will need to complete it on a desktop computer or laptop.\nYou can find more information on assessments at Amazon here: https://www.amazon.jobs/en/landing_pages/assessments\nIf you have a disability and need a workplace accommodation or adjustment during the application and hiring process, including support for the interview or onboarding process, please visit https://amazon.jobs/content/en/how-we-hire/accommodations for more information. If the country/region you’re applying in isn’t listed, please contact your Recruiting Partner.\nAfter completing the assessment, you can take an optional feedback survey.\nYou will know you have completed the entire assessment when you see the confirmation page at the end.\nTo begin your assessment, use the link below:\nStart My Assessment\nNote: This link is unique to you.\n\nTroubleshooting\nFor any technical issues, refer to the troubleshooting guides in the assessment. If those do not work, examine closely where you left off, log out, and log back in using the link above. Please do not repeatedly refresh the screen.\nIf technical issues cannot be resolved, please contact your recruiter immediately.\nWe recognize this is a large time investment. We value the people we hire and we appreciate your interest in Amazon. You will be contacted in the event we dec",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T13:43:46.568Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765028220901",
+    "threadId": "manual_1765028220901",
+    "labelIds": ["INBOX"],
+    "snippet": "I have completed the necessary actions to address the issues identified in the verification review, including moving the application homepage and privacy policy to a domain under my ownership and upda",
+    "body": "I have completed the necessary actions to address the issues identified in the verification review, including moving the application homepage and privacy policy to a domain under my ownership and updating the URLs in the Cloud Console. The domain has also been verified.\n\nPlease proceed with the verification process.\n\nThank you,\n",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T13:37:00.901Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manual_1765026121883",
+    "threadId": "manual_1765026121883",
+    "labelIds": ["INBOX"],
+    "snippet": "Thanks for your interest in joining us as a Data Engineer. In order to get to know you better, we'd like to move forward with the hiring process.\n\nYou’re invited to participate in our screening proces",
+    "body": "Thanks for your interest in joining us as a Data Engineer. In order to get to know you better, we'd like to move forward with the hiring process.\n\nYou’re invited to participate in our screening process!​​​​​​​​​​​​​​\nSubmit by\tTotal questions (9)\nDec 10th, 2025 (11:59 PM SAST)\nText, Multiple Choice\nGet Started\nYou’ll be directed to our onboarding page, where you can find additional info.\nWhat to expect?\n​​​​​​​\n1. You'll answer the questions on your own, without the presence of an interviewer.\n2. After you submit your results, our recruiters will review and assess them and be back in touch as quickly as possible.\n\nIf you have any questions or need assistance, don’t hesitate to contact us. We appreciate your time and effort. Good luck!\nKind regard,\nNTT DATA - Talent Acquisition Team\n\nConnect With Us On",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Manual Entry"
+        },
+        {
+          "name": "From",
+          "value": "Manual Input"
+        },
+        {
+          "name": "Date",
+          "value": "2025-12-06T13:02:01.883Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dummy_1",
+    "threadId": "thread_1",
+    "labelIds": ["INBOX"],
+    "snippet": "Thank you for applying to Google. We have received your application...",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Application Confirmation at Google"
+        },
+        {
+          "name": "From",
+          "value": "Google Careers <careers@google.com>"
+        },
+        {
+          "name": "Date",
+          "value": "Fri, 05 Dec 2025 10:00:00 -0800"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dummy_2",
+    "threadId": "thread_2",
+    "labelIds": ["INBOX"],
+    "snippet": "We would like to schedule an interview to discuss your background...",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Interview Request at Amazon"
+        },
+        {
+          "name": "From",
+          "value": "Amazon Recruiting <recruiting@amazon.com>"
+        },
+        {
+          "name": "Date",
+          "value": "Thu, 04 Dec 2025 14:30:00 -0800"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dummy_3",
+    "threadId": "thread_3",
+    "labelIds": ["INBOX"],
+    "snippet": "Unfortunately, we will not be moving forward with your application at this time...",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Update on your application at Microsoft"
+        },
+        {
+          "name": "From",
+          "value": "Microsoft Careers <careers@microsoft.com>"
+        },
+        {
+          "name": "Date",
+          "value": "Wed, 03 Dec 2025 09:15:00 -0800"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dummy_4",
+    "threadId": "thread_4",
+    "labelIds": ["INBOX"],
+    "snippet": "Congratulations! We are pleased to offer you the position...",
+    "payload": {
+      "headers": [
+        {
+          "name": "Subject",
+          "value": "Offer Letter - Software Engineer at Netflix"
+        },
+        {
+          "name": "From",
+          "value": "Netflix Talent <talent@netflix.com>"
+        },
+        {
+          "name": "Date",
+          "value": "Tue, 02 Dec 2025 16:45:00 -0800"
+        }
+      ]
+    }
+  }
+]

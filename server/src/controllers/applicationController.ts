@@ -1,5 +1,13 @@
 import { Request, Response } from "express";
 import Application from "../models/Application";
+import { parseEmail } from "../utils/emailParser";
+import { updatePatternStats } from "../utils/PatternManager";
+import ParsedEmail from "../models/ParsedEmail";
+
+// @ts-ignore
+import fs from "fs";
+// @ts-ignore
+import path from "path";
 
 export const getApplications = async (req: Request, res: Response) => {
   try {
@@ -13,5 +21,181 @@ export const getApplications = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Get Applications Error:", error);
     res.status(500).json({ message: "Failed to fetch applications" });
+  }
+};
+
+export const updateStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    // @ts-ignore
+    const userId = req.user.id;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    const application = await Application.findOne({ _id: id, userId });
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    application.status = status;
+    application.lastUpdatedAt = new Date();
+    await application.save();
+
+    res.json(application);
+  } catch (error) {
+    console.error("Update Status Error:", error);
+    res.status(500).json({ message: "Failed to update status" });
+  }
+};
+
+export const createManual = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const userId = req.user.id;
+    let { company, role, status, appliedDate, notes, emailContent } = req.body;
+
+    // Create a fake email entry if emailContent is provided
+    let relatedEmails: any[] = [];
+    if (emailContent) {
+      const messageId = `manual_${Date.now()}`;
+      relatedEmails.push({
+        messageId,
+        subject: emailContent.subject || "Manual Entry",
+        sender: emailContent.sender || "Manual",
+        date: new Date(),
+        snippet: emailContent.snippet || "",
+        body: emailContent.body || "",
+      });
+
+      // Save to dummyEmails.json
+      try {
+        const dummyPath = path.join(__dirname, "../data/dummyEmails.json");
+        const dummyData = JSON.parse(fs.readFileSync(dummyPath, "utf-8"));
+
+        const newDummyEmail = {
+          id: messageId,
+          threadId: messageId,
+          labelIds: ["INBOX"],
+          snippet: emailContent.snippet || "",
+          body: emailContent.body || "",
+          payload: {
+            headers: [
+              {
+                name: "Subject",
+                value: emailContent.subject || "Manual Entry",
+              },
+              { name: "From", value: emailContent.sender || "Manual Input" },
+              { name: "Date", value: new Date().toISOString() },
+            ],
+          },
+        };
+
+        dummyData.unshift(newDummyEmail); // Add to beginning
+        fs.writeFileSync(dummyPath, JSON.stringify(dummyData, null, 2));
+        console.log("Saved manual email to dummyEmails.json");
+      } catch (err) {
+        console.error("Failed to save to dummyEmails.json", err);
+        // Continue without failing the request
+      }
+
+      // Auto-parse if relevant fields are missing or status is "Auto-detect"
+      if (!company || !status || status === "Auto-detect") {
+        const parsed = await parseEmail(
+          emailContent.subject || "",
+          emailContent.sender || "",
+          emailContent.body || ""
+        );
+
+        if (!company && parsed.company) company = parsed.company;
+        if (!role && parsed.role) role = parsed.role;
+        if (!status && parsed.status !== "Unknown") status = parsed.status;
+
+        // Ensure jobId is saved (we need to update the Application model to support this field if we want to save it)
+        // For now, we can append it to notes if found
+        if (parsed.jobId) {
+          notes = notes
+            ? `${notes}\nJob ID: ${parsed.jobId}`
+            : `Job ID: ${parsed.jobId}`;
+        }
+      }
+    }
+
+    const newApp = await Application.create({
+      userId,
+      company: company || "Unknown Company",
+      role: role || "Unknown Role",
+      status: status || "Applied",
+      appliedDate: appliedDate || new Date(),
+      source: "Manual",
+      notes,
+      relatedEmails,
+    });
+
+    res.status(201).json(newApp);
+  } catch (error) {
+    console.error("Create Manual Application Error:", error);
+    res.status(500).json({ message: "Failed to create application" });
+  }
+};
+
+/**
+ * Endpoint to Confirm or Correct Parsing Results
+ */
+export const confirmParsing = async (req: Request, res: Response) => {
+  try {
+    const { emailId, corrections, isCorrect } = req.body;
+
+    // Check if emailId is for ParsedEmail or Application
+    // Assuming ParsedEmail ID for this implementation
+    const record = await ParsedEmail.findById(emailId);
+    if (!record) {
+      return res.status(404).json({ message: "Parsing record not found" });
+    }
+
+    record.userCorrection = {
+      isCorrect,
+      correctedCompany: corrections?.company,
+      correctedRole: corrections?.role,
+      correctedStatus: corrections?.status,
+    };
+    await record.save();
+
+    // Trigger Learning
+    const usedPatterns = record.parsedResult.patternsUsed || [];
+
+    if (isCorrect) {
+      for (const patternId of usedPatterns) {
+        if (patternId.startsWith("company_pattern_")) {
+          const regex = patternId.replace("company_pattern_", "");
+          await updatePatternStats("company", regex, true);
+        } else if (patternId.startsWith("role_subject_")) {
+          const regex = patternId.replace("role_subject_", "");
+          await updatePatternStats("role", regex, true);
+        } else if (patternId.startsWith("role_body_")) {
+          const regex = patternId.replace("role_body_", "");
+          await updatePatternStats("role", regex, true);
+        }
+      }
+    } else {
+      // Penalize
+      for (const patternId of usedPatterns) {
+        if (patternId.startsWith("company_pattern_")) {
+          await updatePatternStats(
+            "company",
+            patternId.replace("company_pattern_", ""),
+            false
+          );
+        }
+        // Add other penalties as needed
+      }
+    }
+
+    res.json({ message: "Feedback process completed", success: true });
+  } catch (error) {
+    console.error("Feedback Error:", error);
+    res.status(500).json({ message: "Failed to process feedback" });
   }
 };

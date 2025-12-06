@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   type PayloadAction,
 } from "@reduxjs/toolkit";
-import api from "../../services/api";
+import api from "@/services/api";
 
 interface User {
   _id: string;

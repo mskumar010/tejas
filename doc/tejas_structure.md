@@ -2,7 +2,7 @@
 
 ---
 
-# Main categories
+# Main categories/statuses
 
 1. ⚡ Action Required
    └─ Assessment Pending, Interview Tomorrow, Offer Decision

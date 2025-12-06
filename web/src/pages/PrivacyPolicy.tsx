@@ -3,18 +3,18 @@ import { ArrowLeft } from "lucide-react";
 
 function PrivacyPolicy() {
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-200">
+    <div className="max-w-4xl mx-auto p-8 bg-surface min-h-screen text-text-main">
       <div className="mb-6">
         <Link
           to="/"
-          className="inline-flex items-center text-sm text-primary hover:text-indigo-700 transition-colors"
+          className="inline-flex items-center text-sm text-primary hover:opacity-80 transition-colors"
         >
           <ArrowLeft size={16} className="mr-1" /> Back to Home
         </Link>
       </div>
 
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
-      <p className="mb-4 text-sm text-gray-500">
+      <p className="mb-4 text-sm text-text-muted">
         Last updated: {new Date().toLocaleDateString()}
       </p>
 
@@ -86,14 +86,14 @@ function PrivacyPolicy() {
         <h2 className="text-xl font-semibold mb-3">
           5. Limited Use Disclosure
         </h2>
-        <p className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+        <p className="p-4 bg-app rounded-lg border border-border-base">
           Tejas's use and transfer to any other app of information received from
           Google APIs will adhere to the{" "}
           <a
             href="https://developers.google.com/terms/api-services-user-data-policy"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-primary hover:underline"
           >
             Google API Services User Data Policy
           </a>

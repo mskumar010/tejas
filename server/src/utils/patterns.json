@@ -1,0 +1,169 @@
+{
+  "company": {
+    "patterns": [
+      {
+        "regex": "(?:greetings from|sincerely,|regards,|thank you,|team at|here at|joining)\\s+([A-Z][a-zA-Z\\s]+?)(?:\\s+Talent|\\s+Recruiting|!|\\n|,|\\s+we)",
+        "confidence": 90,
+        "successCount": 20,
+        "failCount": 0
+      },
+      {
+        "regex": "interest in\\s+([A-Z][a-zA-Z\\s]+?)(?:\\s+position|\\s+role|\\.|!)",
+        "confidence": 75,
+        "successCount": 0,
+        "failCount": 0
+      }
+    ],
+    "domainToCompany": {
+      "ibm.com": "IBM",
+      "revature.com": "Revature",
+      "wipro.com": "Wipro",
+      "servicenow.com": "ServiceNow",
+      "google.com": "Google",
+      "amazon.com": "Amazon",
+      "microsoft.com": "Microsoft",
+      "facebook.com": "Meta",
+      "netflix.com": "Netflix",
+      "apple.com": "Apple"
+    }
+  },
+  "role": {
+    "patterns": [
+      {
+        "regex": "(?:position of|role of|for the|applying for|applied for|application for)\\s+([A-Z][a-zA-Z\\s\\-]+?)(?:\\.|,|at|in|with|$)",
+        "confidence": 85,
+        "successCount": 0,
+        "failCount": 0
+      },
+      {
+        "regex": "(?:Ref:|Job Title|Position:|Offer Letter -)\\s*[\\d\\-\\s]*([A-Z][a-zA-Z\\s\\-]+)",
+        "confidence": 90,
+        "successCount": 0,
+        "failCount": 0
+      },
+      {
+        "regex": "interest in\\s+([A-Z][a-zA-Z\\s\\-]+?)(?:\\s+position|\\s+role|\\.)",
+        "confidence": 80,
+        "successCount": 0,
+        "failCount": 0
+      }
+    ]
+  },
+  "status": {
+    "Assessment Pending": {
+      "keywords": [
+        "complete the assessment",
+        "coding assessment",
+        "invited to complete",
+        "recorded video",
+        "timed assessment",
+        "test link",
+        "assessment link",
+        "hackerrank",
+        "take the test"
+      ],
+      "weight": 10
+    },
+    "Interview Scheduled": {
+      "keywords": [
+        "interview",
+        "schedule",
+        "screening process",
+        "phone screen",
+        "video call",
+        "zoom",
+        "teams meeting",
+        "google meet"
+      ],
+      "weight": 8
+    },
+    "Offer Decision": {
+      "keywords": [
+        "offer expiration",
+        "decision on the offer",
+        "respond to offer"
+      ],
+      "weight": 10
+    },
+    "Follow-up Needed": {
+      "keywords": [
+        "please reply",
+        "awaiting your response",
+        "action required"
+      ],
+      "weight": 5
+    },
+    "Applied": {
+      "keywords": [
+        "received your application",
+        "thank you for applying",
+        "application is being reviewed",
+        "successfully registered",
+        "received your job application"
+      ],
+      "weight": 5
+    },
+    "Offer Received": {
+      "keywords": [
+        "pleased to offer",
+        "offer letter",
+        "congratulations",
+        "compensation details",
+        "job offer"
+      ],
+      "weight": 20
+    },
+    "Accepted": {
+      "keywords": [
+        "welcome to the team",
+        "offer accepted",
+        "start date"
+      ],
+      "weight": 20
+    },
+    "Rejected": {
+      "keywords": [
+        "regret to inform",
+        "not moving forward",
+        "other candidates",
+        "decided to pursue",
+        "not selected",
+        "will not be considering",
+        "unfortunately",
+        "position filled"
+      ],
+      "weight": 10
+    },
+    "Cooldown": {
+      "keywords": [
+        "cooling-off period",
+        "re-apply in"
+      ],
+      "weight": 10
+    },
+    "No Longer Considering": {
+      "keywords": [
+        "withdrawn",
+        "closed your application"
+      ],
+      "weight": 10
+    },
+    "Non-job": {
+      "keywords": [
+        "invoice",
+        "receipt",
+        "payment processed",
+        "order confirmation",
+        "subscription",
+        "billing",
+        "verification code",
+        "security alert",
+        "newsletter",
+        "promotional",
+        "marketing",
+        "unsubscribe"
+      ],
+      "weight": 20
+    }
+  }
+}
