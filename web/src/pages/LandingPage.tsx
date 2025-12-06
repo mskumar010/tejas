@@ -92,12 +92,12 @@ function LandingPage() {
           >
             Privacy Policy
           </Link>
-          <a
-            href="#"
+          <Link
+            to="/terms"
             className="hover:underline hover:text-gray-700 dark:hover:text-gray-300"
           >
             Terms of Service
-          </a>
+          </Link>
         </div>
       </footer>
     </div>

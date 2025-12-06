@@ -1,6 +1,18 @@
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+
 function PrivacyPolicy() {
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-200">
+      <div className="mb-6">
+        <Link
+          to="/"
+          className="inline-flex items-center text-sm text-primary hover:text-indigo-700 transition-colors"
+        >
+          <ArrowLeft size={16} className="mr-1" /> Back to Home
+        </Link>
+      </div>
+
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
       <p className="mb-4 text-sm text-gray-500">
         Last updated: {new Date().toLocaleDateString()}
