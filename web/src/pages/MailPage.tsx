@@ -76,7 +76,7 @@ function MailPage() {
       await api.patch(`/applications/${appId}/status`, { status: newStatus });
       toast.success(`Marked as ${newStatus}`);
       fetchApplications();
-    } catch (_error) {
+    } catch {
       toast.error("Failed to update status");
     }
   };

@@ -138,12 +138,8 @@ function Analytics() {
   const heatmapData = useMemo(() => {
     const today = new Date();
     const sixMonthsAgo = subMonths(today, 5); // Show last 6 months roughly
-    const _days = eachMonthOfInterval({ start: sixMonthsAgo, end: today }).map(
-      (d) => {
-        // Using eachDayOfInterval would be better for granular grid
-        return d;
-      }
-    );
+    // Grid calculation (visual reference only, days unused)
+    // eachMonthOfInterval({ start: sixMonthsAgo, end: today });
 
     // Let's use last 6 months  for the grid
     const startDate = subMonths(today, 6);

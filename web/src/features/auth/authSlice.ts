@@ -1,17 +1,3 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  type PayloadAction,
-} from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
-import api from "@/services/api";
-
-interface User {
-  _id: string;
-  email: string;
-  token: string;
-}
-
 interface AuthState {
   user: User | null;
   isLoading: boolean;
@@ -100,7 +86,7 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.user = action.payload;
       })
-      .addCase(register.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(register.rejected, (state, action: PayloadAction<unknown>) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -114,7 +100,7 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.user = action.payload;
       })
-      .addCase(login.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(login.rejected, (state, action: PayloadAction<unknown>) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
