@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import api from "@/services/api";
 
 interface User {
@@ -100,7 +101,7 @@ export const authSlice = createSlice({
       .addCase(register.rejected, (state, action: PayloadAction<unknown>) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        state.message = action.payload as string;
         state.user = null;
       })
       .addCase(login.pending, (state) => {
@@ -114,7 +115,7 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state, action: PayloadAction<unknown>) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        state.message = action.payload as string;
         state.user = null;
       })
       .addCase(logout.fulfilled, (state) => {
