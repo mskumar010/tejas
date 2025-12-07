@@ -30,29 +30,31 @@ const testCases = [
 
 console.log("Running Parser Tests...\n");
 
-testCases.forEach((test, i) => {
-  const result = parseEmail(test.subject, test.sender, test.snippet);
-  console.log(`Test ${i + 1}: ${test.subject}`);
-  console.log(`  Expected: ${JSON.stringify(test.expected)}`);
-  console.log(
-    `  Actual:   ${JSON.stringify({
-      company: result.company,
-      status: result.status,
-    })}`
-  );
+(async () => {
+  for (const [i, test] of testCases.entries()) {
+    const result = await parseEmail(test.subject, test.sender, test.snippet);
+    console.log(`Test ${i + 1}: ${test.subject}`);
+    console.log(`  Expected: ${JSON.stringify(test.expected)}`);
+    console.log(
+      `  Actual:   ${JSON.stringify({
+        company: result.company,
+        status: result.status,
+      })}`
+    );
 
-  const statusMatch = result.status === test.expected.status;
-  // Heuristic match for company (contains)
-  const companyMatch =
-    (!test.expected.company && !result.company) ||
-    (result.company &&
-      test.expected.company &&
-      (result.company.includes(test.expected.company) ||
-        test.expected.company.includes(result.company)));
+    const statusMatch = result.status === test.expected.status;
+    // Heuristic match for company (contains)
+    const companyMatch =
+      (!test.expected.company && !result.company) ||
+      (result.company &&
+        test.expected.company &&
+        (result.company.includes(test.expected.company) ||
+          test.expected.company.includes(result.company)));
 
-  if (statusMatch && companyMatch) {
-    console.log("  ✅ PASS\n");
-  } else {
-    console.log("  ❌ FAIL\n");
+    if (statusMatch && companyMatch) {
+      console.log("  ✅ PASS\n");
+    } else {
+      console.log("  ❌ FAIL\n");
+    }
   }
-});
+})();
