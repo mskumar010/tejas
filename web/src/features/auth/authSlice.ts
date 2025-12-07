@@ -1,3 +1,12 @@
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import api from "@/services/api";
+
+interface User {
+  _id: string;
+  email: string;
+  token: string;
+}
+
 interface AuthState {
   user: User | null;
   isLoading: boolean;
@@ -26,6 +35,7 @@ export const register = createAsyncThunk(
         localStorage.setItem("user", JSON.stringify(response.data));
       }
       return response.data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const message =
         (error.response &&
@@ -48,6 +58,7 @@ export const login = createAsyncThunk(
         localStorage.setItem("user", JSON.stringify(response.data));
       }
       return response.data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const message =
         (error.response &&

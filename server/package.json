@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch src/data/dummyEmails.json src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,10 +15,13 @@
   "type": "commonjs",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "compromise": "^14.14.4",
+    "compromise-dates": "^3.7.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "gcp-metadata": "7.0.1",
     "googleapis": "^167.0.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.1",

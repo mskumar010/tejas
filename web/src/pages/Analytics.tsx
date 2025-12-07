@@ -137,7 +137,6 @@ function Analytics() {
   // GitHub-style Activity Heatmap Data
   const heatmapData = useMemo(() => {
     const today = new Date();
-    const sixMonthsAgo = subMonths(today, 5); // Show last 6 months roughly
     // Grid calculation (visual reference only, days unused)
     // eachMonthOfInterval({ start: sixMonthsAgo, end: today });
 

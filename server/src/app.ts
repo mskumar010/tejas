@@ -16,6 +16,16 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// Simple logging middleware
+app.use((req, res, next) => {
+  console.log(
+    `[${new Date().toISOString()}] Client Request: ${req.method} ${
+      req.url
+    } origin: ${req.headers.origin}`
+  );
+  next();
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/gmail", gmailRoutes);

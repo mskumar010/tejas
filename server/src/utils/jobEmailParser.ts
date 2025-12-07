@@ -1,4 +1,7 @@
 import { loadPatterns, PatternLibrary } from "./PatternManager";
+import nlp from "compromise";
+import datePlugin from "compromise-dates";
+nlp.plugin(datePlugin);
 
 export interface ParsedEmail {
   company?: string;
@@ -23,11 +26,25 @@ export const parseEmail = async (
   const patterns = await loadPatterns();
   const fullText = `${subject} ${body}`.toLowerCase();
 
+  // OPTIMIZATION: Parse NLP once here to save CPU
+  let nlpDoc: any = null;
+  try {
+    nlpDoc = nlp(body);
+  } catch (e) {
+    console.warn("NLP Init failed", e);
+  }
+
   // Track which patterns matched for debugging/learning
   const usedpatterns: string[] = [];
 
   // 1. EXTRACT COMPANY
-  const companyResult = extractCompany(sender, body, patterns, usedpatterns);
+  const companyResult = extractCompany(
+    sender,
+    body,
+    patterns,
+    usedpatterns,
+    nlpDoc
+  );
 
   // 2. EXTRACT ROLE
   const roleResult = extractRole(subject, body, patterns, usedpatterns);
@@ -36,7 +53,7 @@ export const parseEmail = async (
   const statusResult = detectStatus(fullText, patterns, usedpatterns);
 
   // 4. EXTRACT OTHER DETAILS (Dates, JobID, Cooldown) - Helper functions
-  const dates = extractDates(body);
+  const dates = extractDates(body, usedpatterns, nlpDoc);
   const jobId = extractJobId(subject, body, usedpatterns);
   const cooldown = extractCooldown(body);
   const source = detectSource(sender, body);
@@ -82,7 +99,8 @@ const extractCompany = (
   from: string,
   body: string,
   library: PatternLibrary,
-  usedPatterns: string[]
+  usedPatterns: string[],
+  nlpDoc: any // Passed from main function
 ) => {
   // Strategy 1: Email Domain
   const emailDomainMatch = from.match(/@([a-zA-Z0-9\-]+\.[a-zA-Z]+)/);
@@ -122,6 +140,26 @@ const extractCompany = (
       }
     } catch (e) {
       console.warn("Invalid regex in pattern library:", p.regex);
+    }
+  }
+
+  // Strategy 3: NLP Fallback (compromise)
+  if (nlpDoc) {
+    try {
+      const organizations = nlpDoc.organizations().out("array");
+      if (organizations.length > 0) {
+        // Filter out common false positives if necessary, for now take the first one
+        // Avoid short strings or common words
+        const validOrg = organizations.find(
+          (o: string) => o.length > 3 && !["Team", "Recruiting"].includes(o)
+        );
+        if (validOrg) {
+          usedPatterns.push("company_nlp_compromise");
+          return { name: validOrg, confidence: 60 };
+        }
+      }
+    } catch (e) {
+      console.error("NLP extraction failed:", e);
     }
   }
 
@@ -202,16 +240,36 @@ const detectStatus = (
 /**
  * Helper: Extract Dates
  */
-const extractDates = (body: string) => {
+const extractDates = (body: string, usedPatterns: string[], nlpDoc: any) => {
   const dates = [];
-  // Basic date extraction
-  const dateRegex =
-    /\d{1,2}(?:st|nd|rd|th)?[\s\/\-\.]+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s\/\-\.,]*\d{2,4}/gi;
-  const matches = body.match(dateRegex);
-  if (matches) {
-    return matches.map((m) => m); // Just returning raw strings for now
+
+  // Strategy 1: NLP (compromise) - Smarter detection
+  if (nlpDoc) {
+    try {
+      const nlpDates = nlpDoc.dates().json();
+      if (nlpDates && nlpDates.length > 0) {
+        // Format: { start: '2025-12-10T00:00:00.000Z', end: null }
+        // We'll map to readable strings or ISO strings
+        dates.push(...nlpDates.map((d: any) => d.start || d.text));
+        usedPatterns.push("date_nlp_compromise");
+      }
+    } catch (e) {
+      console.error("NLP date extraction failed:", e);
+    }
   }
-  return [];
+
+  // Strategy 2: Regex Backup (if NLP missed everything)
+  if (dates.length === 0) {
+    const dateRegex =
+      /\d{1,2}(?:st|nd|rd|th)?[\s\/\-\.]+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s\/\-\.,]*\d{2,4}/gi;
+    const matches = body.match(dateRegex);
+    if (matches) {
+      dates.push(...matches);
+    }
+  }
+
+  // Deduplicate
+  return [...new Set(dates)];
 };
 
 /**
