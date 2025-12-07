@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -6,7 +6,6 @@ import {
   User,
   Building,
   Tag,
-  Clock,
   ExternalLink,
   ChevronDown,
   Check,
@@ -14,11 +13,7 @@ import {
 import api from "@/services/api";
 import { toast } from "react-hot-toast";
 import { format } from "date-fns";
-import {
-  getStatusColor,
-  getAllStatuses,
-  STATUS_CATEGORIES,
-} from "@/utils/statusUtils.tsx";
+import { getStatusColor, STATUS_CATEGORIES } from "@/utils/statusUtils.tsx";
 import {
   Listbox,
   ListboxButton,
@@ -26,7 +21,6 @@ import {
   ListboxOption,
   Transition,
 } from "@headlessui/react";
-import { Fragment } from "react";
 
 interface Application {
   _id: string;

@@ -150,7 +150,6 @@ export const createManual = async (req: Request, res: Response) => {
 
         dummyData.unshift(newDummyEmail); // Add to beginning
         fs.writeFileSync(dummyPath, JSON.stringify(dummyData, null, 2));
-        console.log("Saved manual email to dummyEmails.json");
       } catch (err) {
         console.error("Failed to save to dummyEmails.json", err);
         // Continue without failing the request
@@ -158,29 +157,33 @@ export const createManual = async (req: Request, res: Response) => {
 
       // Auto-parse if relevant fields are missing or status is "Auto-detect"
       if (!company || !status || status === "Auto-detect") {
-        const parsed = await parseEmail(
-          emailContent.subject || "",
-          emailContent.sender || "",
-          emailContent.body || ""
-        );
+        try {
+          const parsed = await parseEmail(
+            emailContent.subject || "",
+            emailContent.sender || "",
+            emailContent.body || ""
+          );
 
-        if (!company && parsed.company) company = parsed.company;
-        if (!role && parsed.role) role = parsed.role;
-        // If status is missing OR 'Auto-detect', try to use parsed status
-        if (
-          (!status || status === "Auto-detect") &&
-          parsed.status &&
-          parsed.status !== "Unknown"
-        ) {
-          status = parsed.status;
-        }
+          if (!company && parsed.company) company = parsed.company;
+          if (!role && parsed.role) role = parsed.role;
+          // If status is missing OR 'Auto-detect', try to use parsed status
+          if (
+            (!status || status === "Auto-detect") &&
+            parsed.status &&
+            parsed.status !== "Unknown"
+          ) {
+            status = parsed.status;
+          }
 
-        // Ensure jobId is saved (we need to update the Application model to support this field if we want to save it)
-        // For now, we can append it to notes if found
-        if (parsed.jobId) {
-          notes = notes
-            ? `${notes}\nJob ID: ${parsed.jobId}`
-            : `Job ID: ${parsed.jobId}`;
+          // Ensure jobId is saved (we need to update the Application model to support this field if we want to save it)
+          // For now, we can append it to notes if found
+          if (parsed.jobId) {
+            notes = notes
+              ? `${notes}\nJob ID: ${parsed.jobId}`
+              : `Job ID: ${parsed.jobId}`;
+          }
+        } catch (parseErr) {
+          console.error("createManual: parseEmail failed", parseErr);
         }
       }
     }

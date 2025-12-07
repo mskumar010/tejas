@@ -18,14 +18,13 @@ import {
 } from "recharts";
 import {
   format,
-  parseISO,
-  startOfMonth,
   eachMonthOfInterval,
   subMonths,
   eachDayOfInterval,
 } from "date-fns";
 
 function Analytics() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [applications, setApplications] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -71,13 +70,13 @@ function Analytics() {
 
     const offers = applications.filter((app) => app.status === "Offer").length;
 
-    // Response Rate: (In Progress + Completed + Inactive) / Total (excluding Non-Job)
-    const validApplications = total - nonJob;
-    const responded =
-      inProgress +
-      completed +
-      inactive -
-      applications.filter((a) => a.status === "Applied").length;
+    // Response Rate calculation (commented out unused vars for now)
+    // const validApplications = total - nonJob;
+    // const _responded =
+    //   inProgress +
+    //   completed +
+    //   inactive -
+    //   applications.filter((a) => a.status === "Applied").length;
     // Simplified: Responded = Total - Applied - Ghosted (if ghosted exists) - NonJob
     // Better approximation: everything NOT "Applied" is a response? Maybe.
     // Let's stick to concrete statuses using STATUS_CATEGORIES if possible, but "Applied" is in ACTION_REQUIRED.
@@ -138,13 +137,8 @@ function Analytics() {
   // GitHub-style Activity Heatmap Data
   const heatmapData = useMemo(() => {
     const today = new Date();
-    const sixMonthsAgo = subMonths(today, 5); // Show last 6 months roughly
-    const days = eachMonthOfInterval({ start: sixMonthsAgo, end: today }).map(
-      (d) => {
-        // Using eachDayOfInterval would be better for granular grid
-        return d;
-      }
-    );
+    // Grid calculation (visual reference only, days unused)
+    // eachMonthOfInterval({ start: sixMonthsAgo, end: today });
 
     // Let's use last 6 months  for the grid
     const startDate = subMonths(today, 6);
@@ -179,6 +173,7 @@ function Analytics() {
   }
 
   // Custom Tooltip to support theme
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (

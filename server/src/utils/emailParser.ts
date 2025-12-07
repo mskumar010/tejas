@@ -6,6 +6,7 @@ export interface ParsedEmail {
   status: string;
   jobId?: string;
   confidence: number;
+  dates: any[];
   originalData?: any;
 }
 
@@ -24,6 +25,7 @@ export const parseEmail = async (
     status: result.status,
     jobId: result.jobId,
     confidence: result.confidence,
+    dates: result.dates,
     originalData: result, // Full result for debugging if needed
   };
 };

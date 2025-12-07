@@ -19,9 +19,10 @@ import { formatDistanceToNow } from "date-fns";
 
 function Dashboard() {
   const navigate = useNavigate();
-  // @ts-ignore
   const { user, isLoading } = useSelector((state: RootState) => state.auth);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const currentUser = user as any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [applications, setApplications] = useState<any[]>([]);
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
@@ -46,7 +47,6 @@ function Dashboard() {
   const onConnectGmail = async () => {
     try {
       const res = await api.get("/gmail/connect", {
-        // @ts-ignore
         headers: { Authorization: `Bearer ${currentUser?.token}` },
       });
       if (res.data.url) {

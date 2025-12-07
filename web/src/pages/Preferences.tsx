@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
 function Preferences() {
-  // @ts-ignore
   const { user } = useSelector((state: RootState) => state.auth);
 
   if (!user) return null;
