@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
 function Preferences() {
-  // @ts-ignore
+  // @ts-expect-error - user definition mismatch
   const { user } = useSelector((state: RootState) => state.auth);
 
   if (!user) return null;

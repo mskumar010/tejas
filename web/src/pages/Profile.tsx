@@ -2,8 +2,9 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
 function Profile() {
-  // @ts-ignore
+  // @ts-expect-error - user definition mismatch
   const { user } = useSelector((state: RootState) => state.auth);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const currentUser = user as any;
 
   if (!user) return null;

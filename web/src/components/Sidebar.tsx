@@ -16,7 +16,6 @@ const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  // @ts-ignore
   const { user, isLoading } = useSelector((state: RootState) => state.auth);
 
   const onLogout = () => {

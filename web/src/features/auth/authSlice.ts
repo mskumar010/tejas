@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
   type PayloadAction,
 } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 import api from "@/services/api";
 
 interface User {
@@ -32,7 +33,7 @@ const initialState: AuthState = {
 // Register user
 export const register = createAsyncThunk(
   "auth/register",
-  async (userData: any, thunkAPI) => {
+  async (userData: Record<string, unknown>, thunkAPI) => {
     try {
       const response = await api.post("/auth/register", userData);
       if (response.data) {
@@ -54,7 +55,7 @@ export const register = createAsyncThunk(
 // Login user
 export const login = createAsyncThunk(
   "auth/login",
-  async (userData: any, thunkAPI) => {
+  async (userData: Record<string, unknown>, thunkAPI) => {
     try {
       const response = await api.post("/auth/login", userData);
       if (response.data) {
