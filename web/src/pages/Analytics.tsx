@@ -126,13 +126,24 @@ function Analytics() {
   // GitHub-style Activity Heatmap Data
   const heatmapData = useMemo(() => {
     const today = new Date();
-    // Grid calculation (visual reference only, days unused)
-    // eachMonthOfInterval({ start: sixMonthsAgo, end: today });
-
-    // Let's use last 6 months  for the grid
+    // Use last 365 days for a full year view, or 6 months. Let's do 6 months (~26 weeks)
     const startDate = subMonths(today, 6);
-    // Actually standard github graph is days.
+
+    // Adjust start date to the previous Sunday to align grid properly
+    // getDay() returns 0 for Sunday.
+    // actually, we want the grid to flow Col 1: Sun-Sat.
+    // RECHARTS/Grid approach:
+    // We want the list to be: [Sun, Mon, Tue, ...].
+    // If startDate is Wed, we need [Sun, Mon, Tue] as spacers.
+
+    const dayOfWeek = startDate.getDay(); // 0 (Sun) - 6 (Sat)
+    // We don't change startDate, we just prepend spacers in the render loop or array.
+
     const allDays = eachDayOfInterval({ start: startDate, end: today });
+
+    // Create spacers
+    const prefixDays = Array(dayOfWeek).fill(null);
+    const gridItems = [...prefixDays, ...allDays];
 
     const activityMap: Record<string, number> = {};
     applications.forEach((app) => {
@@ -142,15 +153,16 @@ function Analytics() {
       }
     });
 
-    return { allDays, activityMap };
+    return { gridItems, activityMap };
   }, [applications]);
 
   const getColorForCount = (count: number) => {
-    if (count === 0) return "bg-gray-100 dark:bg-white/5";
-    if (count <= 1) return "bg-green-200 dark:bg-green-900";
-    if (count <= 2) return "bg-green-400 dark:bg-green-700";
-    if (count <= 4) return "bg-green-600 dark:bg-green-500";
-    return "bg-green-800 dark:bg-green-400";
+    if (count === 0) return "bg-app border border-border-base"; // Empty
+    // Using primary color opacity for "contribution" feel
+    if (count <= 1) return "bg-primary/40 border-primary/40";
+    if (count <= 2) return "bg-primary/60 border-primary/60";
+    if (count <= 3) return "bg-primary/80 border-primary/80";
+    return "bg-primary border-primary";
   };
 
   if (isLoading) {
@@ -166,9 +178,9 @@ function Analytics() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-surface border border-border-base p-3 rounded shadow-lg">
-          <p className="font-bold text-text-main">{label}</p>
-          <p className="text-text-muted">
+        <div className="bg-surface border border-border-base p-3 rounded shadow-lg z-50">
+          <p className="font-bold text-text-main text-sm">{label}</p>
+          <p className="text-text-muted text-xs">
             {payload[0].name}: {payload[0].value}
           </p>
         </div>
@@ -183,75 +195,93 @@ function Analytics() {
 
       {/* Key Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-surface p-4 rounded-xl border border-border-base shadow-sm">
-          <p className="text-text-muted text-sm font-medium">
+        <div className="bg-surface p-5 rounded-2xl border border-border-base shadow-sm relative overflow-hidden group">
+          <div className="absolute right-0 top-0 w-24 h-24 bg-primary/5 rounded-bl-[100px] -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+          <p className="text-text-muted text-xs font-semibold uppercase tracking-wider">
             Total Applications
           </p>
-          <p className="text-2xl font-bold text-text-main mt-1">
+          <p className="text-3xl font-bold text-text-main mt-2">
             {stats.total}
           </p>
         </div>
-        <div className="bg-surface p-4 rounded-xl border border-border-base shadow-sm">
-          <p className="text-text-muted text-sm font-medium">Interviews</p>
-          <p className="text-2xl font-bold text-blue-500 mt-1">
+        <div className="bg-surface p-5 rounded-2xl border border-border-base shadow-sm relative overflow-hidden group">
+          <div className="absolute right-0 top-0 w-24 h-24 bg-blue-500/5 rounded-bl-[100px] -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+          <p className="text-text-muted text-xs font-semibold uppercase tracking-wider">
+            Interviews
+          </p>
+          <p className="text-3xl font-bold text-blue-500 mt-2">
             {stats.interviews}
           </p>
         </div>
-        <div className="bg-surface p-4 rounded-xl border border-border-base shadow-sm">
-          <p className="text-text-muted text-sm font-medium">Offers</p>
-          <p className="text-2xl font-bold text-green-500 mt-1">
+        <div className="bg-surface p-5 rounded-2xl border border-border-base shadow-sm relative overflow-hidden group">
+          <div className="absolute right-0 top-0 w-24 h-24 bg-green-500/5 rounded-bl-[100px] -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+          <p className="text-text-muted text-xs font-semibold uppercase tracking-wider">
+            Offers
+          </p>
+          <p className="text-3xl font-bold text-green-500 mt-2">
             {stats.offers}
           </p>
         </div>
-        <div className="bg-surface p-4 rounded-xl border border-border-base shadow-sm">
-          <p className="text-text-muted text-sm font-medium">Action Needed</p>
-          <p className="text-2xl font-bold text-red-500 mt-1">
+        <div className="bg-surface p-5 rounded-2xl border border-border-base shadow-sm relative overflow-hidden group">
+          <div className="absolute right-0 top-0 w-24 h-24 bg-red-500/5 rounded-bl-[100px] -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+          <p className="text-text-muted text-xs font-semibold uppercase tracking-wider">
+            Action Needed
+          </p>
+          <p className="text-3xl font-bold text-red-500 mt-2">
             {stats.actionRequired}
           </p>
         </div>
       </div>
 
       {/* Activity Heatmap */}
-      <div className="bg-surface p-6 rounded-xl border border-border-base shadow-sm overflow-hidden">
-        <h3 className="text-lg font-bold text-text-main mb-4">
-          Activity (Last 6 Months)
-        </h3>
-        <div className="flex gap-2 min-w-full overflow-x-auto pb-2">
-          {/* Day Labels */}
-          <div className="grid grid-rows-7 gap-1 pr-2 text-xs text-text-muted leading-3 pt-5">
-            <span></span>
-            <span>Mon</span>
-            <span></span>
-            <span>Wed</span>
-            <span></span>
-            <span>Fri</span>
-            <span></span>
-          </div>
-
-          {/* Heatmap Grid */}
-          <div className="grid grid-rows-7 grid-flow-col gap-1">
-            {heatmapData.allDays.map((date) => {
-              const dateKey = format(date, "yyyy-MM-dd");
-              const count = heatmapData.activityMap[dateKey] || 0;
-              return (
-                <div
-                  key={dateKey}
-                  title={`${dateKey}: ${count} applications`}
-                  className={`w-3 h-3 rounded-sm transition-colors ${getColorForCount(
-                    count
-                  )}`}
-                />
-              );
-            })}
+      <div className="bg-surface p-6 rounded-2xl border border-border-base shadow-sm overflow-hidden">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-lg font-bold text-text-main">
+            Activity Map (Last 6 Months)
+          </h3>
+          <div className="flex items-center gap-2 text-xs text-text-muted">
+            <span>Less</span>
+            <div className="w-3 h-3 rounded bg-app border border-border-base" />
+            <div className="w-3 h-3 rounded bg-primary/40" />
+            <div className="w-3 h-3 rounded bg-primary/80" />
+            <div className="w-3 h-3 rounded bg-primary" />
+            <span>More</span>
           </div>
         </div>
-        <div className="flex justify-end items-center gap-2 text-xs text-text-muted mt-2">
-          <span>Less</span>
-          <div className={`w-3 h-3 rounded-sm ${getColorForCount(0)}`} />
-          <div className={`w-3 h-3 rounded-sm ${getColorForCount(2)}`} />
-          <div className={`w-3 h-3 rounded-sm ${getColorForCount(4)}`} />
-          <div className={`w-3 h-3 rounded-sm ${getColorForCount(6)}`} />
-          <span>More</span>
+
+        <div className="w-full overflow-x-auto pb-2">
+          <div className="inline-flex gap-4">
+            {/* Labels */}
+            <div className="grid grid-rows-7 gap-1 text-[10px] text-text-muted font-medium h-[100px] py-[2px] pr-2 text-right">
+              <span className="leading-[10px]">Sun</span>
+              <span className="leading-[10px]">Mon</span>
+              <span className="leading-[10px]">Tue</span>
+              <span className="leading-[10px]">Wed</span>
+              <span className="leading-[10px]">Thu</span>
+              <span className="leading-[10px]">Fri</span>
+              <span className="leading-[10px]">Sat</span>
+            </div>
+
+            {/* Grid */}
+            <div className="grid grid-rows-7 grid-flow-col gap-1 h-[100px]">
+              {heatmapData.gridItems.map((date, i) => {
+                if (!date) {
+                  return <div key={`spacer-${i}`} className="w-3 h-3" />;
+                }
+                const dateKey = format(date, "yyyy-MM-dd");
+                const count = heatmapData.activityMap[dateKey] || 0;
+                return (
+                  <div
+                    key={dateKey}
+                    title={`${dateKey}: ${count} applications`}
+                    className={`w-3 h-3 rounded-sm transition-all hover:scale-125 hover:z-10 relative ${getColorForCount(
+                      count
+                    )}`}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
