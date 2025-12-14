@@ -126,14 +126,14 @@ function Companies() {
   }
 
   return (
-    <section className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
+    <section className="space-y-6 p-4 md:p-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <Building2 size={28} className="text-primary" />
-          <h1 className="text-3xl font-bold text-text-main tracking-tight">
+          <Building2 size={28} className="text-primary shrink-0" />
+          <h1 className="text-3xl font-bold text-text-main tracking-tight truncate">
             Companies
           </h1>
-          <span className="bg-app text-text-muted px-3 py-1 rounded-full text-sm font-medium">
+          <span className="bg-app text-text-muted px-3 py-1 rounded-full text-sm font-medium shrink-0">
             {filteredData.length}
           </span>
         </div>
@@ -141,7 +141,7 @@ function Companies() {
 
       {/* Search & Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-0">
           <Search
             className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-text-muted"
             size={20}
@@ -155,21 +155,23 @@ function Companies() {
           />
         </div>
 
-        <Popover className="relative">
+        <Popover className="relative shrink-0">
           {({ open }) => (
             <>
               <Popover.Button
-                className={`flex items-center gap-2 px-4 py-3 bg-surface border border-border-base rounded-xl text-text-main hover:bg-app transition-colors shadow-sm font-medium outline-none ${
+                className={`flex items-center justify-between w-full sm:w-auto gap-2 px-4 py-3 bg-surface border border-border-base rounded-xl text-text-main hover:bg-app transition-colors shadow-sm font-medium outline-none ${
                   open ? "ring-2 ring-primary/20 border-primary" : ""
                 }`}
               >
-                <Filter size={18} />
-                <span>Filter</span>
-                {selectedCategories.length < 5 && (
-                  <span className="ml-1 bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
-                    {selectedCategories.length}
-                  </span>
-                )}
+                <div className="flex items-center gap-2">
+                  <Filter size={18} />
+                  <span>Filter</span>
+                  {selectedCategories.length < 5 && (
+                    <span className="ml-1 bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
+                      {selectedCategories.length}
+                    </span>
+                  )}
+                </div>
                 <ChevronDown
                   size={14}
                   className={`ml-1 transition-transform ${
@@ -186,7 +188,7 @@ function Companies() {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-xl bg-surface border border-border-base shadow-xl focus:outline-none p-2">
+                <Popover.Panel className="absolute right-0 z-20 mt-2 w-full sm:w-56 origin-top-right rounded-xl bg-surface border border-border-base shadow-xl focus:outline-none p-2">
                   <div className="space-y-1">
                     <h3 className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">
                       Filter by Status
@@ -251,23 +253,25 @@ function Companies() {
                     expandedCompany === group.name ? null : group.name
                   )
                 }
-                className="p-5 flex items-center gap-4 cursor-pointer select-none"
+                className="p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 cursor-pointer select-none"
               >
-                <div className="w-12 h-12 bg-app rounded-xl flex items-center justify-center text-text-muted font-bold text-xl shrink-0">
-                  {group.name.charAt(0).toUpperCase()}
+                <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+                  <div className="w-12 h-12 bg-app rounded-xl flex items-center justify-center text-text-muted font-bold text-xl shrink-0">
+                    {group.name.charAt(0).toUpperCase()}
+                  </div>
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
+                <div className="flex-1 min-w-0 w-full sm:w-auto">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
                     <h3 className="font-bold text-text-main text-lg truncate">
                       {group.name}
                     </h3>
-                    <span className="bg-app text-text-main text-xs px-2 py-0.5 rounded-full font-medium">
+                    <span className="bg-app text-text-main text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap">
                       {group.applications.length} Role
                       {group.applications.length !== 1 && "s"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-text-muted">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-sm text-text-muted">
                     <span className="flex items-center gap-1">
                       <Clock size={14} />
                       Latest: {format(new Date(group.latestActivity), "MMM d")}
@@ -303,7 +307,7 @@ function Companies() {
                   </div>
                 </div>
 
-                <div className="text-text-muted">
+                <div className="text-text-muted hidden sm:block">
                   {expandedCompany === group.name ? (
                     <ChevronUp size={20} />
                   ) : (
@@ -314,7 +318,7 @@ function Companies() {
 
               {/* Expanded Content */}
               {expandedCompany === group.name && (
-                <div className="border-t border-border-base bg-app px-5 py-4 rounded-b-xl animate-in slide-in-from-top-2 duration-200">
+                <div className="border-t border-border-base bg-app px-4 py-4 md:px-5 rounded-b-xl animate-in slide-in-from-top-2 duration-200">
                   <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                     Applied Roles
                   </h4>
@@ -326,7 +330,7 @@ function Companies() {
                           key={app._id}
                           className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-surface rounded-lg border border-border-base gap-2"
                         >
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
                             <Briefcase
                               size={16}
                               className="text-text-muted shrink-0"
@@ -336,13 +340,13 @@ function Companies() {
                             </span>
                           </div>
                           <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
-                            <span className="text-sm text-text-muted">
+                            <span className="text-sm text-text-muted shrink-0">
                               {format(new Date(app.appliedDate), "MMM d, yyyy")}
                             </span>
                             <div
                               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium border ${getStatusColor(
                                 app.status
-                              )}`}
+                              )} shrink-0`}
                             >
                               <StatusIcon size={14} />
                               {app.status}

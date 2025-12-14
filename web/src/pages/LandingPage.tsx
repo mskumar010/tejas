@@ -72,7 +72,7 @@ function LandingPage() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left w-full mb-16">
           <div className="p-6 bg-surface rounded-xl shadow-sm border border-border-base">
             <CheckCircle className="text-success mb-4" size={32} />
             <h3 className="text-lg font-bold text-text-main mb-2">Auto-Sync</h3>
@@ -100,6 +100,47 @@ function LandingPage() {
               We detect if you've been rejected or offered an interview based on
               email replies.
             </p>
+          </div>
+        </div>
+
+        {/* Transparency Section for Google Verification */}
+        <div className="w-full max-w-4xl p-8 bg-surface rounded-xl border border-primary/20 shadow-lg text-left">
+          <h2 className="text-2xl font-bold text-text-main mb-4 flex items-center gap-2">
+            <Shield className="text-primary" /> Transparency & Data Usage
+          </h2>
+          <div className="space-y-4 text-text-muted">
+            <p>
+              Tejas uses the <code>gmail.readonly</code> scope to identifying
+              job application outcomes. Here is exactly how we use your data:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong>Automated Scanning:</strong> Our system programmatically
+                scans your inbox <em>only</em> for emails that match job
+                application patterns (e.g., from ATS systems, "Application
+                Received", "Offer", "Rejection").
+              </li>
+              <li>
+                <strong>Data Extraction:</strong> We extract specific metadata
+                (Company Name, Job Title) to populate your dashboard.
+              </li>
+              <li>
+                <strong>No Human Access:</strong> No human scans or reads your
+                emails. The process is entirely automated.
+              </li>
+              <li>
+                <strong>Limited Use:</strong> We do not sell or share your Gmail
+                data with third parties for advertising or market research.
+              </li>
+            </ul>
+            <div className="mt-4 pt-4 border-t border-border-base">
+              <Link
+                to="/privacy"
+                className="text-primary font-semibold hover:underline"
+              >
+                Read our full Privacy Policy
+              </Link>
+            </div>
           </div>
         </div>
       </main>

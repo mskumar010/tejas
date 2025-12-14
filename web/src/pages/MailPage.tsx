@@ -166,7 +166,7 @@ function MailPage() {
     );
 
   return (
-    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
+    <div className="space-y-6 p-4 md:p-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -191,7 +191,7 @@ function MailPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={handleSync}
             disabled={isSyncing}
@@ -213,7 +213,7 @@ function MailPage() {
 
       {/* Search & Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-0">
           <Search
             className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-text-muted"
             size={20}
@@ -227,21 +227,23 @@ function MailPage() {
           />
         </div>
 
-        <Popover className="relative">
+        <Popover className="relative shrink-0">
           {({ open }) => (
             <>
               <Popover.Button
-                className={`flex items-center gap-2 px-4 py-3 bg-surface border border-border-base rounded-xl text-text-main hover:bg-app transition-colors shadow-sm font-medium outline-none ${
+                className={`flex items-center justify-between w-full sm:w-auto gap-2 px-4 py-3 bg-surface border border-border-base rounded-xl text-text-main hover:bg-app transition-colors shadow-sm font-medium outline-none ${
                   open ? "ring-2 ring-primary/20 border-primary" : ""
                 }`}
               >
-                <Filter size={18} />
-                <span>Filter</span>
-                {selectedCategories.length < 4 && (
-                  <span className="ml-1 bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
-                    {selectedCategories.length}
-                  </span>
-                )}
+                <div className="flex items-center gap-2">
+                  <Filter size={18} />
+                  <span>Filter</span>
+                  {selectedCategories.length < 4 && (
+                    <span className="ml-1 bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
+                      {selectedCategories.length}
+                    </span>
+                  )}
+                </div>
                 <ChevronDown
                   size={14}
                   className={`ml-1 transition-transform ${
@@ -258,7 +260,7 @@ function MailPage() {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-xl bg-surface border border-border-base shadow-xl focus:outline-none p-2">
+                <Popover.Panel className="absolute right-0 z-20 mt-2 w-full sm:w-56 origin-top-right rounded-xl bg-surface border border-border-base shadow-xl focus:outline-none p-2">
                   <div className="space-y-1">
                     <h3 className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">
                       Filter by Status
@@ -314,16 +316,16 @@ function MailPage() {
               <div
                 key={email.uniqueKey}
                 onClick={() => navigate(`/mail/${email.appId}`)}
-                className="group p-5 hover:bg-app transition-all cursor-pointer relative"
+                className="group p-4 md:p-5 hover:bg-app transition-all cursor-pointer relative"
               >
                 <div className="flex flex-col md:flex-row md:items-start gap-4 justify-between">
                   {/* Left: Content */}
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 break-words">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <div
                         className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold uppercase tracking-wide border ${getStatusColor(
                           email.appStatus
-                        )}`}
+                        )} shrink-0`}
                       >
                         <span className="mr-1.5">
                           {(() => {
@@ -333,11 +335,11 @@ function MailPage() {
                         </span>
                         {email.appStatus}
                       </div>
-                      <span className="text-sm font-semibold text-text-main truncate">
+                      <span className="text-sm font-semibold text-text-main truncate max-w-[200px] sm:max-w-none">
                         {email.company}
                       </span>
                       <span className="text-border-base">•</span>
-                      <span className="text-sm text-text-muted truncate">
+                      <span className="text-sm text-text-muted truncate max-w-[150px] sm:max-w-none">
                         {email.role}
                       </span>
                     </div>
@@ -354,8 +356,8 @@ function MailPage() {
                   </div>
 
                   {/* Right: Meta & Actions */}
-                  <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start gap-2 md:pl-4 md:border-l md:border-border-base">
-                    <span className="text-xs text-text-muted whitespace-nowrap font-medium">
+                  <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start gap-2 md:pl-4 md:border-l md:border-border-base shrink-0">
+                    <span className="text-xs text-text-muted font-medium">
                       {format(new Date(email.date), "MMM d, h:mm a")}
                     </span>
 
