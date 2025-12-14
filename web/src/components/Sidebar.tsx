@@ -35,7 +35,7 @@ const Sidebar = () => {
   /* Skeleton Loading State */
   if (isLoading || !user) {
     return (
-      <aside className="w-64 bg-surface dark:bg-app border-r border-border-base min-h-screen flex flex-col p-6 space-y-8 transition-colors duration-200">
+      <aside className="w-64 h-full bg-surface dark:bg-app border-r border-border-base flex flex-col p-6 space-y-8 transition-colors duration-200">
         {/* Header Skeleton */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -65,7 +65,7 @@ const Sidebar = () => {
   }
 
   return (
-    <aside className="w-64 bg-surface dark:bg-app border-r border-border-base min-h-screen flex flex-col transition-colors duration-200">
+    <aside className="w-64 h-full bg-surface dark:bg-app border-r border-border-base flex flex-col transition-colors duration-200">
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img src="/logo.svg" alt="Tejas Logo" className="w-8 h-8" />

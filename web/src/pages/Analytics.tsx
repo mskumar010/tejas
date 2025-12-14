@@ -70,17 +70,6 @@ function Analytics() {
 
     const offers = applications.filter((app) => app.status === "Offer").length;
 
-    // Response Rate calculation (commented out unused vars for now)
-    // const validApplications = total - nonJob;
-    // const _responded =
-    //   inProgress +
-    //   completed +
-    //   inactive -
-    //   applications.filter((a) => a.status === "Applied").length;
-    // Simplified: Responded = Total - Applied - Ghosted (if ghosted exists) - NonJob
-    // Better approximation: everything NOT "Applied" is a response? Maybe.
-    // Let's stick to concrete statuses using STATUS_CATEGORIES if possible, but "Applied" is in ACTION_REQUIRED.
-
     return {
       total,
       actionRequired,
@@ -193,7 +182,7 @@ function Analytics() {
       <h1 className="text-2xl font-bold text-text-main mb-6">Analytics</h1>
 
       {/* Key Metrics Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-surface p-4 rounded-xl border border-border-base shadow-sm">
           <p className="text-text-muted text-sm font-medium">
             Total Applications
@@ -267,11 +256,11 @@ function Analytics() {
       </div>
 
       {/* Line Chart: Applications Trend */}
-      <div className="bg-surface p-6 rounded-xl border border-border-base shadow-sm">
+      <div className="bg-surface p-6 rounded-xl border border-border-base shadow-sm min-w-0">
         <h3 className="text-lg font-bold text-text-main mb-6">
           Application Trend (Last 6 Months)
         </h3>
-        <div className="h-64 w-full">
+        <div className="h-64 w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%" minWidth={0}>
             <LineChart data={trendData}>
               <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
@@ -299,11 +288,11 @@ function Analytics() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Status Distribution */}
-        <div className="bg-surface p-6 rounded-xl border border-border-base shadow-sm">
+        <div className="bg-surface p-6 rounded-xl border border-border-base shadow-sm min-w-0">
           <h3 className="text-lg font-bold text-text-main mb-6">
             Application Status Distribution
           </h3>
-          <div className="h-64 w-full">
+          <div className="h-64 w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <PieChart>
                 <Pie
@@ -339,11 +328,11 @@ function Analytics() {
         </div>
 
         {/* Top Companies */}
-        <div className="bg-surface p-6 rounded-xl border border-border-base shadow-sm">
+        <div className="bg-surface p-6 rounded-xl border border-border-base shadow-sm min-w-0">
           <h3 className="text-lg font-bold text-text-main mb-6">
             Top Companies Applied To
           </h3>
-          <div className="h-64 w-full">
+          <div className="h-64 w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart data={companyData}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.1} />

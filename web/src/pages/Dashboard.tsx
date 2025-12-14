@@ -108,7 +108,11 @@ function Dashboard() {
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface p-4 rounded-xl border border-border-base shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-text-main">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-text-main">
+            {currentUser?.name
+              ? `${currentUser.name}'s Dashboard`
+              : "Dashboard"}
+          </h1>
           <div className="flex items-center gap-2 text-sm text-text-muted mt-1">
             <Clock size={14} />
             {lastSynced ? (

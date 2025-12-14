@@ -7,23 +7,47 @@ import applicationRoutes from "./routes/applicationRoutes";
 
 const app = express();
 
-// Sanitize CLIENT_URL to prevent header errors (removes newlines, spaces, quotes, & trailing slashes)
+// Sanitize CLIENT_URL to prevent header errors
 const rawClientUrl = process.env.CLIENT_URL || "http://localhost:5173";
-const clientUrl = rawClientUrl
-  .trim()
-  .replace(/^['"]|['"]$/g, "")
-  .replace(/\/$/, "");
 
-console.log(
-  `[Startup] Configured CORS Origin: "${clientUrl}" (Raw: "${rawClientUrl}")`
+// Create an array of allowed origins including localhost and the env variable
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  rawClientUrl,
+].map((url) =>
+  url
+    .trim()
+    .replace(/^['"]|['"]$/g, "")
+    .replace(/\/$/, "")
 );
+
+// Remove duplicates
+const uniqueOrigins = [...new Set(allowedOrigins)];
+
+console.log(`[Startup] Allowed CORS Origins:`, uniqueOrigins);
 
 app.use(
   cors({
-    origin: clientUrl,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      // Check if origin is in the allowed list or is a localhost URL
+      if (
+        uniqueOrigins.includes(origin) ||
+        origin.startsWith("http://localhost:")
+      ) {
+        return callback(null, true);
+      } else {
+        const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+        return callback(new Error(msg), false);
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
