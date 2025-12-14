@@ -7,10 +7,16 @@ import applicationRoutes from "./routes/applicationRoutes";
 
 const app = express();
 
-// Sanitize CLIENT_URL to prevent header errors (removes newlines & trailing slashes)
-const clientUrl = (process.env.CLIENT_URL || "http://localhost:5173")
+// Sanitize CLIENT_URL to prevent header errors (removes newlines, spaces, quotes, & trailing slashes)
+const rawClientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+const clientUrl = rawClientUrl
   .trim()
+  .replace(/^['"]|['"]$/g, "")
   .replace(/\/$/, "");
+
+console.log(
+  `[Startup] Configured CORS Origin: "${clientUrl}" (Raw: "${rawClientUrl}")`
+);
 
 app.use(
   cors({
