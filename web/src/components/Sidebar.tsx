@@ -68,7 +68,7 @@ const Sidebar = () => {
     <aside className="w-64 h-full bg-surface dark:bg-app border-r border-border-base flex flex-col transition-colors duration-200">
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="Tejas Logo" className="w-8 h-8" />
+          <img src="/logo.png" alt="Tejas Logo" className="w-8 h-8" />
           <span className="text-xl font-bold text-text-main">Tejas</span>
         </div>
         <ThemeToggle />
