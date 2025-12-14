@@ -7,9 +7,14 @@ import applicationRoutes from "./routes/applicationRoutes";
 
 const app = express();
 
+// Sanitize CLIENT_URL to prevent header errors (removes newlines & trailing slashes)
+const clientUrl = (process.env.CLIENT_URL || "http://localhost:5173")
+  .trim()
+  .replace(/\/$/, "");
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: clientUrl,
     credentials: true,
   })
 );
