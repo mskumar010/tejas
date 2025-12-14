@@ -30,9 +30,18 @@ function Dashboard() {
   useEffect(() => {
     if (!user) {
       navigate("/login");
-    } else {
-      fetchApplications();
+      return;
     }
+
+    // Check for success message from redirect
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("message") === "GmailConnected") {
+      toast.success("Gmail connected successfully!");
+      // Clean up the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    fetchApplications();
   }, [user, navigate]);
 
   const fetchApplications = async () => {
@@ -126,21 +135,31 @@ function Dashboard() {
         <div className="flex gap-3">
           <button
             onClick={onSync}
-            disabled={isSyncing}
-            className="flex items-center gap-2 px-4 py-2 bg-app border border-border-base rounded-lg text-sm font-medium text-text-main hover:brightness-95 transition-all disabled:opacity-50"
+            disabled={isSyncing || !currentUser?.gmailAccessToken}
+            title={
+              !currentUser?.gmailAccessToken
+                ? "Connect your Gmail account to sync applications"
+                : "Sync emails"
+            }
+            className="flex items-center gap-2 px-4 py-2 bg-app border border-border-base rounded-lg text-sm font-medium text-text-main hover:brightness-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <RefreshCw size={18} className={isSyncing ? "animate-spin" : ""} />
             {isSyncing ? "Syncing..." : "Sync Now"}
           </button>
 
-          {!currentUser?.gmailAccessToken && (
+          {!currentUser?.gmailAccessToken ? (
             <button
               onClick={onConnectGmail}
-              className="flex items-center gap-2 px-4 py-2 bg-success text-white rounded-lg text-sm font-medium hover:opacity-90 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:opacity-90 transition-colors shadow-sm shadow-primary/25"
             >
               <Mail size={18} />
               Connect Gmail
             </button>
+          ) : (
+            <div className="flex items-center gap-2 px-4 py-2 bg-success/10 text-success border border-success/20 rounded-lg text-sm font-medium">
+              <CheckCircle2 size={18} />
+              Gmail Connected
+            </div>
           )}
         </div>
       </div>

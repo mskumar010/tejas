@@ -21,7 +21,7 @@ const allowedOrigins = [
     .replace(/^['"]|['"]$/g, "")
     .replace(/\/$/, "")
 );
-
+ 
 // Remove duplicates
 const uniqueOrigins = [...new Set(allowedOrigins)];
 

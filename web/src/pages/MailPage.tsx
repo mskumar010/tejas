@@ -10,8 +10,11 @@ import {
   RefreshCw,
   CheckCircle2,
   ChevronDown,
+  Inbox,
+  FileText,
 } from "lucide-react";
 import ManualEmailModal from "@/components/ManualEmailModal";
+import MailList from "@/components/MailList";
 import toast from "react-hot-toast";
 import Fuse from "fuse.js";
 import {
@@ -36,12 +39,20 @@ interface Application {
   }[];
 }
 
+type ViewMode = "inbox" | "tracked";
+
 function MailPage() {
   const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState<ViewMode>("tracked"); // Default to inbox as requested
+
+  // Tracked Apps State
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Modals
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -61,6 +72,7 @@ function MailPage() {
   }, []);
 
   const fetchApplications = async () => {
+    setLoading(true);
     try {
       const res = await api.get("/applications");
       setApplications(res.data);
@@ -99,7 +111,7 @@ function MailPage() {
     }
   };
 
-  // 1. Flatten Data
+  // 1. Flatten Data (Tracked Apps)
   const allEmails = useMemo(() => {
     return applications
       .flatMap((app) =>
@@ -158,23 +170,20 @@ function MailPage() {
     );
   };
 
-  if (loading)
-    return (
-      <div className="flex bg-app h-full items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
-
   return (
-    <div className="space-y-6 p-4 md:p-8">
+    <div className="space-y-6 p-4 md:p-8 h-full flex flex-col">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
         <div>
           <h1 className="text-3xl font-bold text-text-main tracking-tight">
             Mail View
           </h1>
           <div className="flex items-center gap-2 mt-1 text-sm text-text-muted">
-            <span>{filteredEmails.length} messages found</span>
+            {viewMode === "tracked" ? (
+              <span>{filteredEmails.length} tracked messages</span>
+            ) : (
+              <span>Browse your inbox</span>
+            )}
             {lastSynced && (
               <>
                 <span>•</span>
@@ -211,211 +220,258 @@ function MailPage() {
         </div>
       </div>
 
-      {/* Search & Filter Bar */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1 min-w-0">
-          <Search
-            className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-text-muted"
-            size={20}
-          />
-          <input
-            type="text"
-            placeholder="Search by company, subject, or role..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 border border-border-base rounded-xl bg-surface text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
-          />
-        </div>
-
-        <Popover className="relative shrink-0">
-          {({ open }) => (
-            <>
-              <Popover.Button
-                className={`flex items-center justify-between w-full sm:w-auto gap-2 px-4 py-3 bg-surface border border-border-base rounded-xl text-text-main hover:bg-app transition-colors shadow-sm font-medium outline-none ${
-                  open ? "ring-2 ring-primary/20 border-primary" : ""
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Filter size={18} />
-                  <span>Filter</span>
-                  {selectedCategories.length < 4 && (
-                    <span className="ml-1 bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
-                      {selectedCategories.length}
-                    </span>
-                  )}
-                </div>
-                <ChevronDown
-                  size={14}
-                  className={`ml-1 transition-transform ${
-                    open ? "rotate-180" : ""
-                  }`}
-                />
-              </Popover.Button>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel className="absolute right-0 z-20 mt-2 w-full sm:w-56 origin-top-right rounded-xl bg-surface border border-border-base shadow-xl focus:outline-none p-2">
-                  <div className="space-y-1">
-                    <h3 className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">
-                      Filter by Status
-                    </h3>
-                    {Object.keys(STATUS_CATEGORIES).map((key) => (
-                      <button
-                        key={key}
-                        onClick={() => toggleCategory(key)}
-                        className={`flex items-center w-full px-3 py-2 text-sm rounded-lg transition-colors ${
-                          selectedCategories.includes(key)
-                            ? "bg-primary/10 text-primary"
-                            : "text-text-main hover:bg-app"
-                        }`}
-                      >
-                        <div
-                          className={`w-4 h-4 rounded border mr-3 flex items-center justify-center ${
-                            selectedCategories.includes(key)
-                              ? "bg-primary border-primary"
-                              : "border-border-base"
-                          }`}
-                        >
-                          {selectedCategories.includes(key) && (
-                            <CheckCircle2 size={10} className="text-white" />
-                          )}
-                        </div>
-                        {key.replace("_", " ")}
-                      </button>
-                    ))}
-                  </div>
-                </Popover.Panel>
-              </Transition>
-            </>
-          )}
-        </Popover>
+      {/* Tabs */}
+      <div className="flex bg-surface p-1 rounded-xl border border-border-base w-fit shrink-0">
+        <button
+          onClick={() => setViewMode("tracked")}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            viewMode === "tracked"
+              ? "bg-primary/10 text-primary shadow-sm"
+              : "text-text-muted hover:text-text-main hover:bg-app"
+          }`}
+        >
+          <FileText size={16} />
+          Tracked Applications
+        </button>
+        <button
+          onClick={() => setViewMode("inbox")}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            viewMode === "inbox"
+              ? "bg-primary/10 text-primary shadow-sm"
+              : "text-text-muted hover:text-text-main hover:bg-app"
+          }`}
+        >
+          <Inbox size={16} />
+          Inbox
+        </button>
       </div>
 
-      {/* Email List */}
-      <div className="bg-surface rounded-2xl shadow-sm border border-border-base overflow-hidden">
-        {filteredEmails.length === 0 ? (
-          <div className="p-12 text-center text-text-muted">
-            <div className="bg-app w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="h-8 w-8 opacity-40 text-text-main" />
-            </div>
-            <h3 className="text-lg font-medium text-text-main mb-1">
-              No emails found
-            </h3>
-            <p>Try adjusting your search or filters, or sync your mailbox.</p>
-          </div>
+      {/* MAIN CONTENT AREA */}
+      <div className="flex-1 min-h-0">
+        {viewMode === "inbox" ? (
+          /* --- INBOX VIEW --- */
+          <MailList />
         ) : (
-          // Using a simple list for better readability
-          <div className="divide-y divide-border-base">
-            {filteredEmails.map((email) => (
-              <div
-                key={email.uniqueKey}
-                onClick={() => navigate(`/mail/${email.appId}`)}
-                className="group p-4 md:p-5 hover:bg-app transition-all cursor-pointer relative"
-              >
-                <div className="flex flex-col md:flex-row md:items-start gap-4 justify-between">
-                  {/* Left: Content */}
-                  <div className="flex-1 min-w-0 break-words">
-                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                      <div
-                        className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold uppercase tracking-wide border ${getStatusColor(
-                          email.appStatus
-                        )} shrink-0`}
-                      >
-                        <span className="mr-1.5">
-                          {(() => {
-                            const Icon = getStatusIcon(email.appStatus);
-                            return <Icon size={14} />;
-                          })()}
-                        </span>
-                        {email.appStatus}
-                      </div>
-                      <span className="text-sm font-semibold text-text-main truncate max-w-[200px] sm:max-w-none">
-                        {email.company}
-                      </span>
-                      <span className="text-border-base">•</span>
-                      <span className="text-sm text-text-muted truncate max-w-[150px] sm:max-w-none">
-                        {email.role}
-                      </span>
-                    </div>
-
-                    <h4 className="text-base font-semibold text-text-main mb-1 leading-snug">
-                      {email.subject}
-                    </h4>
-                    <p className="text-sm text-text-muted line-clamp-1">
-                      <span className="font-medium text-text-main mr-2">
-                        {email.sender}
-                      </span>
-                      {email.snippet}
-                    </p>
-                  </div>
-
-                  {/* Right: Meta & Actions */}
-                  <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start gap-2 md:pl-4 md:border-l md:border-border-base shrink-0">
-                    <span className="text-xs text-text-muted font-medium">
-                      {format(new Date(email.date), "MMM d, h:mm a")}
-                    </span>
-
-                    {/* Action Menu Trigger (Only visible on hover) */}
-                    <Menu
-                      as="div"
-                      className="relative ml-auto opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity"
-                    >
-                      <Menu.Button
-                        onClick={(e) => e.stopPropagation()}
-                        className="p-1.5 rounded-full hover:bg-app text-text-muted hover:text-text-main transition-colors"
-                      >
-                        <MoreVertical size={16} />
-                      </Menu.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-border-base rounded-xl bg-surface shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-                          <div className="px-1 py-1">
-                            <div className="px-3 py-2 text-xs font-semibold text-text-muted uppercase">
-                              Update Status
-                            </div>
-                            {[
-                              "Applied",
-                              "Interview Tomorrow",
-                              "Offer Received",
-                              "Rejected",
-                            ].map((status) => (
-                              <Menu.Item key={status}>
-                                {({ active }) => (
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleUpdateStatus(email.appId, status);
-                                    }}
-                                    className={`${
-                                      active ? "bg-primary/10" : ""
-                                    } group flex w-full items-center rounded-lg px-2 py-2 text-sm text-text-main`}
-                                  >
-                                    {status}
-                                  </button>
-                                )}
-                              </Menu.Item>
-                            ))}
-                          </div>
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
-                  </div>
-                </div>
+          /* --- TRACKED VIEW --- */
+          <div className="space-y-6">
+            {/* Search & Filter Bar */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1 min-w-0">
+                <Search
+                  className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-text-muted"
+                  size={20}
+                />
+                <input
+                  type="text"
+                  placeholder="Search by company, subject, or role..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-11 pr-4 py-3 border border-border-base rounded-xl bg-surface text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
+                />
               </div>
-            ))}
+
+              <Popover className="relative shrink-0">
+                {({ open }) => (
+                  <>
+                    <Popover.Button
+                      className={`flex items-center justify-between w-full sm:w-auto gap-2 px-4 py-3 bg-surface border border-border-base rounded-xl text-text-main hover:bg-app transition-colors shadow-sm font-medium outline-none ${
+                        open ? "ring-2 ring-primary/20 border-primary" : ""
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Filter size={18} />
+                        <span>Filter</span>
+                        {selectedCategories.length < 4 && (
+                          <span className="ml-1 bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
+                            {selectedCategories.length}
+                          </span>
+                        )}
+                      </div>
+                      <ChevronDown
+                        size={14}
+                        className={`ml-1 transition-transform ${
+                          open ? "rotate-180" : ""
+                        }`}
+                      />
+                    </Popover.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Popover.Panel className="absolute right-0 z-20 mt-2 w-full sm:w-56 origin-top-right rounded-xl bg-surface border border-border-base shadow-xl focus:outline-none p-2">
+                        <div className="space-y-1">
+                          <h3 className="px-3 py-2 text-xs font-semibold text-text-muted uppercase tracking-wider mb-1">
+                            Filter by Status
+                          </h3>
+                          {Object.keys(STATUS_CATEGORIES).map((key) => (
+                            <button
+                              key={key}
+                              onClick={() => toggleCategory(key)}
+                              className={`flex items-center w-full px-3 py-2 text-sm rounded-lg transition-colors ${
+                                selectedCategories.includes(key)
+                                  ? "bg-primary/10 text-primary"
+                                  : "text-text-main hover:bg-app"
+                              }`}
+                            >
+                              <div
+                                className={`w-4 h-4 rounded border mr-3 flex items-center justify-center ${
+                                  selectedCategories.includes(key)
+                                    ? "bg-primary border-primary"
+                                    : "border-border-base"
+                                }`}
+                              >
+                                {selectedCategories.includes(key) && (
+                                  <CheckCircle2
+                                    size={10}
+                                    className="text-white"
+                                  />
+                                )}
+                              </div>
+                              {key.replace("_", " ")}
+                            </button>
+                          ))}
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Popover>
+            </div>
+
+            {/* Email List */}
+            <div className="bg-surface rounded-2xl shadow-sm border border-border-base overflow-hidden">
+              {loading ? (
+                <div className="flex bg-app h-32 items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              ) : filteredEmails.length === 0 ? (
+                <div className="p-12 text-center text-text-muted">
+                  <div className="bg-app w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Search className="h-8 w-8 opacity-40 text-text-main" />
+                  </div>
+                  <h3 className="text-lg font-medium text-text-main mb-1">
+                    No tracked emails found
+                  </h3>
+                  <p>Try searching, syncing, or switch to the Inbox view.</p>
+                </div>
+              ) : (
+                // Using a simple list for better readability
+                <div className="divide-y divide-border-base">
+                  {filteredEmails.map((email) => (
+                    <div
+                      key={email.uniqueKey}
+                      onClick={() => navigate(`/mail/${email.appId}`)}
+                      className="group p-4 md:p-5 hover:bg-app transition-all cursor-pointer relative"
+                    >
+                      <div className="flex flex-col md:flex-row md:items-start gap-4 justify-between">
+                        {/* Left: Content */}
+                        <div className="flex-1 min-w-0 break-words">
+                          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                            <div
+                              className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold uppercase tracking-wide border ${getStatusColor(
+                                email.appStatus
+                              )} shrink-0`}
+                            >
+                              <span className="mr-1.5">
+                                {(() => {
+                                  const Icon = getStatusIcon(email.appStatus);
+                                  return <Icon size={14} />;
+                                })()}
+                              </span>
+                              {email.appStatus}
+                            </div>
+                            <span className="text-sm font-semibold text-text-main truncate max-w-[200px] sm:max-w-none">
+                              {email.company}
+                            </span>
+                            <span className="text-border-base">•</span>
+                            <span className="text-sm text-text-muted truncate max-w-[150px] sm:max-w-none">
+                              {email.role}
+                            </span>
+                          </div>
+
+                          <h4 className="text-base font-semibold text-text-main mb-1 leading-snug">
+                            {email.subject}
+                          </h4>
+                          <p className="text-sm text-text-muted line-clamp-1">
+                            <span className="font-medium text-text-main mr-2">
+                              {email.sender}
+                            </span>
+                            {email.snippet}
+                          </p>
+                        </div>
+
+                        {/* Right: Meta & Actions */}
+                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start gap-2 md:pl-4 md:border-l md:border-border-base shrink-0">
+                          <span className="text-xs text-text-muted font-medium">
+                            {format(new Date(email.date), "MMM d, h:mm a")}
+                          </span>
+
+                          {/* Action Menu Trigger (Only visible on hover) */}
+                          <Menu
+                            as="div"
+                            className="relative ml-auto opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity"
+                          >
+                            <Menu.Button
+                              onClick={(e) => e.stopPropagation()}
+                              className="p-1.5 rounded-full hover:bg-app text-text-muted hover:text-text-main transition-colors"
+                            >
+                              <MoreVertical size={16} />
+                            </Menu.Button>
+                            <Transition
+                              as={Fragment}
+                              enter="transition ease-out duration-100"
+                              enterFrom="transform opacity-0 scale-95"
+                              enterTo="transform opacity-100 scale-100"
+                              leave="transition ease-in duration-75"
+                              leaveFrom="transform opacity-100 scale-100"
+                              leaveTo="transform opacity-0 scale-95"
+                            >
+                              <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right divide-y divide-border-base rounded-xl bg-surface shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                                <div className="px-1 py-1">
+                                  <div className="px-3 py-2 text-xs font-semibold text-text-muted uppercase">
+                                    Update Status
+                                  </div>
+                                  {[
+                                    "Applied",
+                                    "Interview Tomorrow",
+                                    "Offer Received",
+                                    "Rejected",
+                                  ].map((status) => (
+                                    <Menu.Item key={status}>
+                                      {({ active }) => (
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleUpdateStatus(
+                                              email.appId,
+                                              status
+                                            );
+                                          }}
+                                          className={`${
+                                            active ? "bg-primary/10" : ""
+                                          } group flex w-full items-center rounded-lg px-2 py-2 text-sm text-text-main`}
+                                        >
+                                          {status}
+                                        </button>
+                                      )}
+                                    </Menu.Item>
+                                  ))}
+                                </div>
+                              </Menu.Items>
+                            </Transition>
+                          </Menu>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
