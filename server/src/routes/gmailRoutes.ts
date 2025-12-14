@@ -1,5 +1,11 @@
 import express from "express";
-import { connectGmail, callbackGmail } from "../controllers/gmailController";
+import {
+  connectGmail,
+  callbackGmail,
+  getMessages,
+  getMessageDetails,
+  importMessage,
+} from "../controllers/gmailController";
 import { syncEmails } from "../controllers/syncController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -9,9 +15,19 @@ const router = express.Router();
 router.get("/connect", protect, connectGmail);
 
 // Handle the callback from Google
-router.get("/callback", protect, callbackGmail);
+router.get("/callback", callbackGmail);
 
 // Sync emails
 router.post("/sync", protect, syncEmails);
+
+// Paginated Messages
+router.get("/messages", protect, getMessages);
+
+// Message Details
+// Message Details
+router.get("/message/:id", protect, getMessageDetails);
+
+// Manual Import
+router.post("/import", protect, importMessage);
 
 export default router;

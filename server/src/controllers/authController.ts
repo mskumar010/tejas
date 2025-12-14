@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { google } from "googleapis";
 import User from "../models/User";
+import { getAuthUrl, getTokens } from "../services/gmailService";
 
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "secret", {
@@ -79,4 +81,16 @@ export const getMe = async (req: any, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
+};
+
+export const googleLogin = (req: Request, res: Response) => {
+  // Use the default redirect URI (gmail/callback) but signal 'login' action
+  const state = JSON.stringify({ action: "login" });
+  const url = getAuthUrl(undefined, state);
+  res.redirect(url);
+};
+
+// googleAuthCallback is no longer needed here as gmailController handles it all.
+export const googleAuthCallback = async (req: Request, res: Response) => {
+  res.status(400).json({ message: "Deprecated. Use /gmail/callback" });
 };

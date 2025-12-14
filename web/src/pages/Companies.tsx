@@ -17,6 +17,7 @@ import {
   getStatusIcon,
 } from "@/utils/statusUtils.tsx";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 interface Application {
   _id: string;
@@ -27,6 +28,7 @@ interface Application {
 }
 
 function Companies() {
+  const navigate = useNavigate();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -328,7 +330,8 @@ function Companies() {
                       return (
                         <div
                           key={app._id}
-                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-surface rounded-lg border border-border-base gap-2"
+                          onClick={() => navigate(`/mail/${app._id}`)}
+                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-surface rounded-lg border border-border-base gap-2 cursor-pointer hover:border-primary/50 transition-colors"
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <Briefcase

@@ -133,6 +133,20 @@ function Login() {
             </button>
           </form>
 
+          <div className="mt-4">
+            <a
+              href={`${import.meta.env.VITE_API_URL}/auth/google-signin`}
+              className="w-full flex items-center justify-center py-3 px-4 border border-border-base rounded-xl shadow-sm text-sm font-medium text-text-main bg-surface hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200"
+            >
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google"
+                className="w-5 h-5 mr-2"
+              />
+              Continue with Google
+            </a>
+          </div>
+
           <div className="mt-6 text-center">
             <p className="text-sm text-text-muted">
               Don't have an account?{" "}

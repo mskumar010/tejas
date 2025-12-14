@@ -102,11 +102,11 @@ const Sidebar = () => {
           className="flex items-center gap-3 px-4 py-3 bg-app dark:bg-surface rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
         >
           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-            {user.email.charAt(0).toUpperCase()}
+            {user?.email?.charAt(0).toUpperCase() || "?"}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-text-main truncate">
-              {user.email}
+              {user?.email || "User"}
             </p>
             <p className="text-xs text-text-muted">View Profile</p>
           </div>
