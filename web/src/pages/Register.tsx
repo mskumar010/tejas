@@ -162,7 +162,7 @@ function Register() {
             </button>
           </form>
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <a
               href={`${import.meta.env.VITE_API_URL}/auth/google-signin`}
               className="w-full flex items-center justify-center py-3 px-4 border border-border-base rounded-xl shadow-sm text-sm font-medium text-text-main bg-surface hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200"
@@ -174,7 +174,7 @@ function Register() {
               />
               Continue with Google
             </a>
-          </div>
+          </div> */}
 
           <div className="mt-6 text-center">
             <p className="text-sm text-text-muted">

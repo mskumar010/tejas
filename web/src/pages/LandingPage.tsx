@@ -11,7 +11,7 @@ function LandingPage() {
     <div className="min-h-screen bg-app flex flex-col transition-colors duration-200">
       <header className="px-6 py-4 flex justify-between items-center bg-surface shadow-sm border-b border-border-base">
         <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="Tejas Logo" className="w-8 h-8" />
+          <img src="/logo.png" alt="Tejas Logo" className="w-8 h-8" />
           <span className="text-xl font-bold text-text-main">Tejas</span>
         </div>
         <nav className="flex gap-4 items-center">
