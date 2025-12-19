@@ -31,6 +31,9 @@ const LoadingFallback = () => (
 
 function App() {
   useEffect(() => {
+    let pollingInterval: ReturnType<typeof setInterval>;
+    let countdownInterval: ReturnType<typeof setInterval>;
+
     const checkServer = async () => {
       const toastId = "server-status";
       try {
@@ -43,21 +46,40 @@ function App() {
           err.code === "ERR_NETWORK" ||
           err.message?.includes("Network Error")
         ) {
-          toast.loading("Connecting to backend server...", {
+          let countdown = 30;
+          const getMessage = (seconds: number) => {
+            if (seconds > 0)
+              return `Connecting to backend server... (${seconds}s)`;
+            return "Server is waking up... We use on-demand resources which may take up to a minute to initialize. Thank you for your patience!";
+          };
+
+          toast.loading(getMessage(countdown), {
             id: toastId,
             duration: Infinity,
           });
 
+          // Countdown interval for UI updates
+          countdownInterval = setInterval(() => {
+            countdown--;
+            if (countdown >= 0) {
+              toast.loading(getMessage(countdown), {
+                id: toastId,
+                duration: Infinity,
+              });
+            }
+          }, 1000);
+
           // Poll until successful
-          const interval = setInterval(async () => {
+          pollingInterval = setInterval(async () => {
             try {
               await api.get("/health-check-ping");
               // If we get here (or catch a non-network error), server is up
+              clearInterval(countdownInterval); // Stop countdown
               toast.success("Connected to server!", {
                 id: toastId,
                 duration: 2000,
               });
-              clearInterval(interval);
+              clearInterval(pollingInterval);
             } catch (retryError: unknown) {
               const retryErr = retryError as {
                 code?: string;
@@ -68,22 +90,26 @@ function App() {
                 retryErr.code !== "ERR_NETWORK" &&
                 !retryErr.message?.includes("Network Error")
               ) {
+                clearInterval(countdownInterval); // Stop countdown
                 toast.success("Connected to server!", {
                   id: toastId,
                   duration: 2000,
                 });
-                clearInterval(interval);
+                clearInterval(pollingInterval);
               }
             }
           }, 2000);
-
-          // Cleanup interval on unmount
-          return () => clearInterval(interval);
         }
       }
     };
 
     checkServer();
+
+    // Cleanup intervals on unmount
+    return () => {
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (pollingInterval) clearInterval(pollingInterval);
+    };
   }, []);
 
   return (
