@@ -1,4 +1,4 @@
-import { parseEmail } from "../utils/emailParser";
+import { parseEmail } from "../utils/parser";
 import fs from "fs";
 import path from "path";
 

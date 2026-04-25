@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Mail, Building2, Menu } from "lucide-react";
+import { LayoutDashboard, Mail, Menu } from "lucide-react";
 
 interface MobileBottomNavProps {
   onMenuClick: () => void;
@@ -11,7 +11,6 @@ const MobileBottomNav = ({ onMenuClick }: MobileBottomNavProps) => {
   const navItems = [
     { path: "/dashboard", label: "Home", icon: LayoutDashboard },
     { path: "/mail", label: "Mail", icon: Mail },
-    { path: "/companies", label: "Jobs", icon: Building2 },
   ];
 
   return (

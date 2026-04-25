@@ -6,6 +6,7 @@ export interface IUser extends Document {
   gmailAccessToken?: string;
   gmailRefreshToken?: string;
   lastSyncedAt?: Date;
+  hasCompletedOnboarding: boolean;
   settings: {
     autoSync: boolean;
     syncFrequency: number;
@@ -35,6 +36,7 @@ const UserSchema: Schema = new Schema({
   gmailAccessToken: { type: String },
   gmailRefreshToken: { type: String },
   lastSyncedAt: { type: Date },
+  hasCompletedOnboarding: { type: Boolean, default: false },
   settings: {
     autoSync: { type: Boolean, default: true },
     syncFrequency: { type: Number, default: 15 },

@@ -113,8 +113,9 @@ export const callbackGmail = async (req: Request, res: Response) => {
     // Generate App Token and Redirect
     const token = generateToken(user._id as unknown as string);
     const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+    const hasGmail = !!tokens.access_token;
     res.redirect(
-      `${clientUrl}/auth/success?token=${token}&email=${email}&id=${user._id}`
+      `${clientUrl}/auth/success?token=${token}&email=${email}&id=${user._id}&hasGmail=${hasGmail}&hasCompletedOnboarding=${user.hasCompletedOnboarding}`
     );
   } catch (error) {
     console.error("Gmail Callback Error:", error);
@@ -129,7 +130,7 @@ import {
   getEmailDetails,
 } from "../services/gmailService";
 import Application from "../models/Application";
-import { parseEmail } from "../utils/emailParser";
+import { parseEmail } from "../utils/parser";
 
 export const getMessages = async (req: AuthRequest, res: Response) => {
   try {

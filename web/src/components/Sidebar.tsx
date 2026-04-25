@@ -3,8 +3,6 @@ import {
   LayoutDashboard,
   LogOut,
   Mail,
-  Building2,
-  BarChart2,
   Settings,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
@@ -27,8 +25,6 @@ const Sidebar = () => {
   const navItems = [
     { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { path: "/mail", label: "Email Viewer", icon: Mail },
-    { path: "/companies", label: "Companies", icon: Building2 },
-    { path: "/analytics", label: "Analytics", icon: BarChart2 },
     { path: "/preferences", label: "Preferences", icon: Settings },
   ];
 

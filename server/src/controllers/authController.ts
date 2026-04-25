@@ -42,6 +42,8 @@ export const registerUser = async (req: Request, res: Response) => {
       res.status(201).json({
         _id: user._id,
         email: user.email,
+        hasCompletedOnboarding: user.hasCompletedOnboarding,
+        hasGmail: !!user.gmailAccessToken,
         token: generateToken(user._id as unknown as string),
       });
     } else {
@@ -63,6 +65,8 @@ export const loginUser = async (req: Request, res: Response) => {
       res.json({
         _id: user._id,
         email: user.email,
+        hasCompletedOnboarding: user.hasCompletedOnboarding,
+        hasGmail: !!user.gmailAccessToken,
         token: generateToken(user._id as unknown as string),
       });
     } else {
@@ -93,4 +97,41 @@ export const googleLogin = (req: Request, res: Response) => {
 // googleAuthCallback is no longer needed here as gmailController handles it all.
 export const googleAuthCallback = async (req: Request, res: Response) => {
   res.status(400).json({ message: "Deprecated. Use /gmail/callback" });
+};
+
+export const completeOnboarding = async (req: any, res: Response) => {
+  try {
+    const userId = req.user.id;
+    const { scanDepthDays, applicationVolume, goal } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.hasCompletedOnboarding = true;
+    
+    // Process answers and save
+    if (goal === "Track applications") {
+      // Default notification preferences
+      user.settings.notifications.interviewReminders = true;
+    } else if (goal === "Never miss an interview") {
+      user.settings.notifications.browser = true;
+      user.settings.notifications.interviewReminders = true;
+      user.settings.notifications.assessmentDeadlines = true;
+    } else if (goal === "Automate follow-ups") {
+      user.settings.notifications.followUpSuggestions = true;
+    }
+
+    await user.save();
+
+    res.json({
+      _id: user._id,
+      email: user.email,
+      hasCompletedOnboarding: user.hasCompletedOnboarding,
+    });
+  } catch (error) {
+    console.error("Complete Onboarding Error:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
 };

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { parseEmail } from "./utils/jobEmailParser";
+import { parseEmail } from "./utils/parser";
 import {
   updatePatternStats,
   loadPatterns,
   savePatterns,
-} from "./utils/PatternManager";
+} from "./utils/patternManager";
 import ParsedEmail from "./models/ParsedEmail";
 
 // Mock Mongoose (Optional, or just run standalone if we don't save to DB)

@@ -1,6 +1,8 @@
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
 import User, { IUser } from "../models/User";
+import pLimit from "p-limit";
+import { convert } from "html-to-text";
 
 const SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"];
 
@@ -148,8 +150,8 @@ export const getBatchEmailMetadata = async (
   const auth = getUserOAuthClient(user);
   const gmail = google.gmail({ version: "v1", auth });
 
-  // Parallel fetch (Google Nodes library doesn't support easy batching, so Promise.all is standard for <100 items)
-  const promises = messageIds.map(async (id) => {
+  const limit = pLimit(10);
+  const promises = messageIds.map((id) => limit(async () => {
     try {
       const res = await gmail.users.messages.get({
         userId: "me",
@@ -176,7 +178,7 @@ export const getBatchEmailMetadata = async (
       console.error(`Failed to fetch metadata for msg ${id}`, error);
       return null; // Handle individual failures gracefully
     }
-  });
+  }));
 
   const results = await Promise.all(promises);
   return results.filter((r) => r !== null);
@@ -184,20 +186,33 @@ export const getBatchEmailMetadata = async (
 
 // Helper to extract body from payload
 const getBody = (payload: any): string => {
-  let body = "";
-  if (payload.parts) {
-    for (const part of payload.parts) {
-      if (part.mimeType === "text/plain" && part.body && part.body.data) {
-        body += Buffer.from(part.body.data, "base64").toString("utf-8");
-      } else if (part.parts) {
-        // Recursive check for nested parts (some emails are multipart/alternative inside multipart/related)
-        body += getBody(part);
-      }
+  let plainText = "";
+  let htmlText = "";
+
+  const extract = (part: any) => {
+    if (part.mimeType === "text/plain" && part.body && part.body.data) {
+      plainText += Buffer.from(part.body.data, "base64").toString("utf-8");
+    } else if (part.mimeType === "text/html" && part.body && part.body.data) {
+      htmlText += Buffer.from(part.body.data, "base64").toString("utf-8");
+    } else if (part.parts) {
+      part.parts.forEach(extract);
     }
+  };
+
+  if (payload.parts) {
+    payload.parts.forEach(extract);
   } else if (payload.body && payload.body.data) {
-    body = Buffer.from(payload.body.data, "base64").toString("utf-8");
+    const decoded = Buffer.from(payload.body.data, "base64").toString("utf-8");
+    if (payload.mimeType === "text/html") {
+      htmlText += decoded;
+    } else {
+      plainText += decoded;
+    }
   }
-  return body || payload.snippet || "";
+
+  if (plainText.trim()) return plainText;
+  if (htmlText.trim()) return convert(htmlText, { wordwrap: 130 });
+  return payload.snippet || "";
 };
 
 export const getEmailDetails = async (

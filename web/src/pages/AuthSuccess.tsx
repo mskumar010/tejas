@@ -11,6 +11,8 @@ const AuthSuccess = () => {
     const token = searchParams.get("token");
     const email = searchParams.get("email");
     const id = searchParams.get("id");
+    const hasGmail = searchParams.get("hasGmail") === "true";
+    const hasCompletedOnboarding = searchParams.get("hasCompletedOnboarding") === "true";
 
     if (token) {
       if (email && id) {
@@ -19,6 +21,8 @@ const AuthSuccess = () => {
           _id: id,
           email: email,
           token: token,
+          hasGmail: hasGmail,
+          hasCompletedOnboarding: hasCompletedOnboarding,
         };
         // Save to local storage
         localStorage.setItem("user", JSON.stringify(userObj));

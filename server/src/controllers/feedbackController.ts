@@ -4,7 +4,7 @@ import ParsedEmail from "../models/ParsedEmail";
 import {
   updatePatternStats,
   adjustKeywordWeight,
-} from "../utils/PatternManager";
+} from "../utils/patternManager";
 
 // ... existing imports if any
 

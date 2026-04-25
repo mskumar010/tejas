@@ -13,8 +13,6 @@ const MailDetailPage = lazy(() => import("@/pages/MailDetailPage"));
 const LandingPage = lazy(() => import("@/pages/LandingPage"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
-const Login = lazy(() => import("@/pages/Login"));
-const Register = lazy(() => import("@/pages/Register"));
 const AuthSuccess = lazy(() => import("@/pages/AuthSuccess"));
 const Layout = lazy(() => import("@/components/Layout"));
 const Analytics = lazy(() => import("@/pages/Analytics"));
@@ -118,8 +116,6 @@ function App() {
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/auth/success" element={<AuthSuccess />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />

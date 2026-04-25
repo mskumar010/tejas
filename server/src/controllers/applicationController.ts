@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Application from "../models/Application";
-import { parseEmail } from "../utils/emailParser";
-import { updatePatternStats } from "../utils/PatternManager";
+import { parseEmail } from "../utils/parser";
+import { updatePatternStats } from "../utils/patternManager";
 import ParsedEmail from "../models/ParsedEmail";
 import fs from "fs";
 import path from "path";
@@ -58,6 +58,74 @@ export const updateStatus = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Update Status Error:", error);
     res.status(500).json({ message: "Failed to update status" });
+  }
+};
+
+export const updateDetails = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { company, role, status } = req.body;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    const application = await Application.findOne({ _id: id, userId });
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    if (company) application.company = company;
+    if (role) application.role = role;
+    if (status) application.status = status;
+    
+    application.lastUpdatedAt = new Date();
+    await application.save();
+
+    res.json(application);
+  } catch (error) {
+    console.error("Update Details Error:", error);
+    res.status(500).json({ message: "Failed to update details" });
+  }
+};
+
+export const deleteApplication = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = (req as AuthenticatedRequest).user.id;
+
+    const application = await Application.findOneAndDelete({ _id: id, userId });
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    res.json({ message: "Application removed" });
+  } catch (error) {
+    console.error("Delete Application Error:", error);
+    res.status(500).json({ message: "Failed to delete application" });
+  }
+};
+
+export const exportCSV = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as AuthenticatedRequest).user.id;
+    const applications = await Application.find({ userId }).sort({ appliedDate: -1 });
+
+    const header = ["Company", "Role", "Status", "Applied Date", "Source", "Notes"];
+    const rows = applications.map(app => [
+      `"${app.company || ''}"`,
+      `"${app.role || ''}"`,
+      `"${app.status || ''}"`,
+      `"${app.appliedDate ? app.appliedDate.toISOString().split('T')[0] : ''}"`,
+      `"${app.source || ''}"`,
+      `"${(app.notes || '').replace(/"/g, '""')}"`
+    ]);
+
+    const csvContent = [header.join(","), ...rows.map(r => r.join(","))].join("\n");
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="tejas_applications.csv"');
+    res.send(csvContent);
+  } catch (error) {
+    console.error("Export CSV Error:", error);
+    res.status(500).json({ message: "Failed to export data" });
   }
 };
 
@@ -175,13 +243,7 @@ export const createManual = async (req: Request, res: Response) => {
             status = parsed.status;
           }
 
-          // Ensure jobId is saved (we need to update the Application model to support this field if we want to save it)
-          // For now, we can append it to notes if found
-          if (parsed.jobId) {
-            notes = notes
-              ? `${notes}\nJob ID: ${parsed.jobId}`
-              : `Job ID: ${parsed.jobId}`;
-          }
+
         } catch (parseErr) {
           console.error("createManual: parseEmail failed", parseErr);
         }

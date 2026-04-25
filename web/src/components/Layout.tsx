@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 import Sidebar from "@/components/Sidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import { OnboardingModal } from "@/components/OnboardingModal";
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   return (
     <div className="flex min-h-screen bg-app transition-colors duration-200">
@@ -37,6 +41,11 @@ const Layout = () => {
       </main>
 
       <MobileBottomNav onMenuClick={() => setIsSidebarOpen(true)} />
+      
+      {/* Show Onboarding if logged in but incomplete */}
+      {user && user.hasCompletedOnboarding === false && (
+        <OnboardingModal isOpen={true} />
+      )}
     </div>
   );
 };

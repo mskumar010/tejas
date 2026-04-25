@@ -45,6 +45,9 @@ const MailDetailPage = () => {
   const [application, setApplication] = useState<Application | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editCompany, setEditCompany] = useState("");
+  const [editRole, setEditRole] = useState("");
 
   useEffect(() => {
     const fetchApplication = async () => {
@@ -55,6 +58,8 @@ const MailDetailPage = () => {
         if (app) {
           setApplication(app);
           setSelectedStatus(app.status);
+          setEditCompany(app.company);
+          setEditRole(app.role);
         } else {
           toast.error("Application not found");
           navigate("/mail");
@@ -79,6 +84,34 @@ const MailDetailPage = () => {
       console.error(error);
       toast.error("Failed to update status");
       if (application) setSelectedStatus(application.status);
+    }
+  };
+
+  const handleUpdateDetails = async () => {
+    try {
+      const res = await api.patch(`/applications/${id}/details`, {
+        company: editCompany,
+        role: editRole,
+      });
+      setApplication(res.data);
+      setIsEditing(false);
+      toast.success("Details updated");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update details");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure this is not job-related? It will be removed from your dashboard.")) return;
+    
+    try {
+      await api.delete(`/applications/${id}`);
+      toast.success("Application removed");
+      navigate("/mail");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to remove application");
     }
   };
 
@@ -152,20 +185,71 @@ const MailDetailPage = () => {
               <h4 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-4">
                 Extracted Metadata
               </h4>
-              <div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-surface border border-border-base rounded-lg shadow-sm">
-                  <Building size={16} className="text-primary" />
-                  <span className="text-sm font-medium text-text-main">
-                    {application.company}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-surface border border-border-base rounded-lg shadow-sm">
-                  <Tag size={16} className="text-purple-500" />
-                  <span className="text-sm font-medium text-text-main">
-                    {application.role}
-                  </span>
-                </div>
+              <div className="flex flex-wrap gap-3 items-center">
+                {isEditing ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editCompany}
+                      onChange={(e) => setEditCompany(e.target.value)}
+                      className="px-3 py-1.5 bg-app border border-border-base rounded-lg text-sm font-medium text-text-main focus:outline-none focus:border-primary"
+                    />
+                    <input
+                      type="text"
+                      value={editRole}
+                      onChange={(e) => setEditRole(e.target.value)}
+                      className="px-3 py-1.5 bg-app border border-border-base rounded-lg text-sm font-medium text-text-main focus:outline-none focus:border-primary"
+                    />
+                    <button
+                      onClick={handleUpdateDetails}
+                      className="px-3 py-1.5 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsEditing(false);
+                        setEditCompany(application?.company || "");
+                        setEditRole(application?.role || "");
+                      }}
+                      className="px-3 py-1.5 bg-surface border border-border-base text-text-muted text-sm font-medium rounded-lg hover:text-text-main transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-surface border border-border-base rounded-lg shadow-sm">
+                      <Building size={16} className="text-primary" />
+                      <span className="text-sm font-medium text-text-main">
+                        {application.company}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-surface border border-border-base rounded-lg shadow-sm">
+                      <Tag size={16} className="text-purple-500" />
+                      <span className="text-sm font-medium text-text-main">
+                        {application.role}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors ml-auto"
+                    >
+                      Edit Details
+                    </button>
+                  </>
+                )}
               </div>
+            </div>
+            
+            {/* Action Bar */}
+            <div className="bg-surface border-t border-border-base p-4 rounded-b-2xl flex justify-end">
+               <button
+                 onClick={handleDelete}
+                 className="px-4 py-2 text-sm font-medium text-danger hover:bg-danger/10 rounded-lg transition-colors"
+               >
+                 Not Job Related
+               </button>
             </div>
           </div>
         </main>

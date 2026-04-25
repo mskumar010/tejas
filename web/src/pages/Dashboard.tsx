@@ -37,6 +37,18 @@ function Dashboard() {
     const params = new URLSearchParams(window.location.search);
     if (params.get("message") === "GmailConnected") {
       toast.success("Gmail connected successfully!");
+      
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const userObj = JSON.parse(userStr);
+        if (!userObj.hasGmail) {
+          userObj.hasGmail = true;
+          localStorage.setItem("user", JSON.stringify(userObj));
+          window.location.href = "/dashboard";
+          return;
+        }
+      }
+
       // Clean up the URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -135,9 +147,9 @@ function Dashboard() {
         <div className="flex gap-3">
           <button
             onClick={onSync}
-            disabled={isSyncing || !currentUser?.gmailAccessToken}
+            disabled={isSyncing || !currentUser?.hasGmail}
             title={
-              !currentUser?.gmailAccessToken
+              !currentUser?.hasGmail
                 ? "Connect your Gmail account to sync applications"
                 : "Sync emails"
             }
@@ -147,7 +159,7 @@ function Dashboard() {
             {isSyncing ? "Syncing..." : "Sync Now"}
           </button>
 
-          {!currentUser?.gmailAccessToken ? (
+          {!currentUser?.hasGmail ? (
             <button
               onClick={onConnectGmail}
               className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:opacity-90 transition-colors shadow-sm shadow-primary/25"

@@ -1,5 +1,5 @@
 // test-parser.ts
-import { parseEmail } from "../utils/emailParser";
+import { parseEmail } from "../utils/parser";
 
 const testCases = [
   {

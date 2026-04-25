@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import Application from "../models/Application";
 import { listEmails, getEmailDetails } from "../services/gmailService";
-import { parseEmail } from "../utils/emailParser";
+import { parseEmail } from "../utils/parser";
 
 export const syncEmails = async (req: Request, res: Response) => {
   try {

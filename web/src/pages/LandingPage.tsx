@@ -26,18 +26,17 @@ function LandingPage() {
             </Link>
           ) : (
             <>
-              <Link
-                to="/login"
-                className="text-sm font-medium text-text-muted hover:text-text-main"
+              <button
+                onClick={() => {
+                  window.location.href = import.meta.env.VITE_API_URL 
+                    ? `${import.meta.env.VITE_API_URL}/auth/google-signin`
+                    : "http://localhost:3000/api/auth/google-signin";
+                }}
+                className="text-sm font-medium px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-colors flex items-center gap-2"
               >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="text-sm font-medium px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-colors"
-              >
-                Get Started
-              </Link>
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-4 h-4 bg-white rounded-full" />
+                Sign in with Google
+              </button>
             </>
           )}
         </nav>
@@ -63,12 +62,17 @@ function LandingPage() {
               View Dashboard <ArrowRight size={20} />
             </Link>
           ) : (
-            <Link
-              to="/register"
+            <button
+              onClick={() => {
+                window.location.href = import.meta.env.VITE_API_URL 
+                  ? `${import.meta.env.VITE_API_URL}/auth/google-signin`
+                  : "http://localhost:3000/api/auth/google-signin";
+              }}
               className="flex items-center justify-center gap-2 px-8 py-3 bg-primary text-white rounded-xl text-lg font-semibold hover:opacity-90 transition-transform hover:scale-105 shadow-xl shadow-primary/20"
             >
-              Start Tracking for Free <ArrowRight size={20} />
-            </Link>
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5 bg-white rounded-full p-0.5" />
+              Sign in with Google <ArrowRight size={20} />
+            </button>
           )}
         </div>
 

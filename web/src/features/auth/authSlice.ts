@@ -6,6 +6,7 @@ interface User {
   _id: string;
   email: string;
   token: string;
+  hasCompletedOnboarding?: boolean;
 }
 
 interface AuthState {
@@ -77,6 +78,32 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   localStorage.removeItem("user");
 });
 
+// Complete onboarding
+export const completeOnboarding = createAsyncThunk(
+  "auth/completeOnboarding",
+  async (data: Record<string, unknown>, thunkAPI) => {
+    try {
+      const response = await api.post("/auth/complete-onboarding", data);
+      if (response.data) {
+        // Update user in local storage
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+        const updatedUser = { ...user, hasCompletedOnboarding: response.data.hasCompletedOnboarding };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        return updatedUser;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -120,6 +147,11 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(completeOnboarding.fulfilled, (state) => {
+        if (state.user) {
+          state.user.hasCompletedOnboarding = true;
+        }
       });
   },
 });
